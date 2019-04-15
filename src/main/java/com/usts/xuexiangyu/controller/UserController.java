@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.usts.xuexiangyu.service.UserService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,17 +28,34 @@ public class UserController {
     * 根据返回柜子数据，其中管理员返回所有柜子，普通用户返回所属的柜子
     * 测试地址为：http://localhost:8080/login?name=李广广&pwd=1245
     * */
-
-    public
-    String login(HttpServletRequest request ,HttpServletResponse response){
-        Map<String,Object> map = new HashMap();
+    @RequestMapping("/login")
+    public void login(HttpServletRequest request ,HttpServletResponse response) throws IOException {
+        Map<String,Integer> map = new HashMap();
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
         Users u = new Users();
         u.setuName(name);
         u.setuPwd(pwd);
         map = userService.login(u);
-        return  "admin";
+        //map为空，说明用户名或者密码错误，跳转到登录页面重新登录
+        if(map == null){
+            response.sendRedirect("login.html");
+        }
+
+        //普通用户，返回index.html
+        else if(map.get("role") == 2){
+            Cookie ck = new Cookie("name", name);
+            ck.setMaxAge(-1);
+            response.addCookie(ck);
+            response.sendRedirect("index.html");
+        }else{
+            //管理员，跳转到admin.html
+            Cookie ck = new Cookie("name", name);
+            ck.setMaxAge(-1);
+            response.addCookie(ck);
+            response.sendRedirect("admin.html");
+        }
+
     }
 
 
@@ -100,6 +119,7 @@ public class UserController {
     Map<String, Object> listUser(){
         Map<String, Object> map = new HashMap<String, Object>();
         List<Users> list = userService.listUsers();
+
         map.put("userList",list);
         return map;
     }

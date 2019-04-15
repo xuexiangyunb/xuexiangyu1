@@ -10,5 +10,5 @@ public interface UserService {
     public void delUser(Users u);
     public void updateUser(Users u);
     public List<Users> listUsers();
-    public Map<String,Object> login(Users u);
+    public Map<String,Integer> login(Users u);
 }

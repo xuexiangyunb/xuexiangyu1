@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.usts.xuexiangyu.service.CabinetsService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,16 +77,26 @@ public class CabinetsController {
         return "success.html";
     }
 
-    //显示所有用户
+    //显示所有柜子
     //前端测试地址为：http://localhost:8080/listUser
     //注意：此功能先不要写，需要登录,但是可以先测试一下看看效果
     @RequestMapping("/listCabinets")
     public @ResponseBody
-    Map<String, Object> listCabinets(){
+    Map<String, Object> listCabinets(HttpServletRequest request , HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<Cabinets> list = cabinetsService.listCabinets();
-        map.put("cabinetsList",list);
-        return map;
+        //如果没登录，提示没登录
+        if(request.getCookies().length < 2){
+            map.put("respCode",1);
+            map.put("respDesc","您尚未登录，请先登录！");
+            return map;
+        }else{
+            List<Cabinets> list = cabinetsService.listCabinets();
+            for(int i = 0;i<list.size();i++){
+                System.out.println(list.get(i).toString());
+            }
+            map.put("cabinetsList",list);
+            return map;
+        }
     }
 
 
