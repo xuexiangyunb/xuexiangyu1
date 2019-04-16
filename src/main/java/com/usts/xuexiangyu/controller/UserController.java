@@ -26,7 +26,7 @@ public class UserController {
     /*登录
     * 从前端获取用户名和密码
     * 根据返回柜子数据，其中管理员返回所有柜子，普通用户返回所属的柜子
-    * 测试地址为：http://localhost:8080/login?name=李广广&pwd=1245
+    * 测试地址为：http://localhost:8080/login
     * */
     @RequestMapping("/login")
     public void login(HttpServletRequest request ,HttpServletResponse response) throws IOException {
