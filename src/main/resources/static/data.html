@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>开关柜数据查询</title>
+    <script src="js/test.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body bgcolor="#F0FFFF">
+<center>
+   <br/><br/>
+    <h2>开关柜1数据查询</h2>
+   <br/><br/>
+
+
+    <div class="table" >
+        <table border="1" style="text-align:center" id="table">
+            <tr>
+
+                <th>柜子编号</th>
+                <th>所属用户</th>
+                <th>柜子地点</th>
+                <th>柜子名字</th>
+                <th>时间</th>
+                <th>温度</th>
+                <th>湿度</th>
+                <th>操作</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>admin1</td>
+                <td>五组团1号</td>
+                <td>周海冰</td>
+                <td>2</td>
+                <td>30℃</td>
+                <td>50%</td>
+                <td><a style="color:blue;cursor:pointer;" onclick="updateRow(this);" >修改<a> <a style="color:blue;cursor:pointer;" onclick="delRow(this);">删除</a></td>
+            </tr>
+            <tr>
+                <td>A2</td>
+                <td>456</td>
+                <td>b</td>
+                <td>b@qq.com</td>
+                <td>987654321</td>
+                <td>30030033</td>
+                <td>470205197405213513 </td>
+                <td><a style="color:blue;cursor:pointer;" onclick="updateRow(this);">修改<a> <a style="color:blue;cursor:pointer;" onclick="delRow(this);">删除</a></td>
+            </tr>
+            <tr>
+                <td>A3</td>
+                <td>789</td>
+                <td>c</td>
+                <td>c@qq.com</td>
+                <td>800800820</td>
+                <td>30030030</td>
+                <td>570205197405213513 </td>
+                <td><a style="color:blue;cursor:pointer;" onclick="updateRow(this);">修改<a> <a style="color:blue;cursor:pointer;" onclick="delRow(this);">删除</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="display:none" id="addinfo">
+
+    </div>
+</center>
+</body>
+</html>
