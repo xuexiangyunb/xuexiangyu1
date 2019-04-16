@@ -1,18 +1,29 @@
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>开关柜数据查询</title>
-    <script src="js/test.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/data.css">
+    <meta charset="utf-8">
 </head>
-<body bgcolor="#F0FFFF">
+<body bgcolor="">
+
+<br/>
+<div class="container">
+    <div class="p1">
+    <font size="5px"  face="隶书" >开关柜1数据查询:</font>
+    </div>
+    <form action="" class="parent">
+        <input type="text" class="search" placeholder="搜索">
+        <input type="button" name="" id="" class="btn">
+    </form>
+</div>
+
 <center>
-   <br/><br/>
-    <h2>开关柜1数据查询</h2>
-   <br/><br/>
+
 
 
     <div class="table" >
-        <table border="1" style="text-align:center" id="table">
+        <table border="2" style="text-align:center" id="table" width="1000px" cellspacing="0" cellpadding="0">
             <tr>
 
                 <th>柜子编号</th>
@@ -42,7 +53,9 @@
                 <td>987654321</td>
                 <td>30030033</td>
                 <td>470205197405213513 </td>
-                <td><a style="color:blue;cursor:pointer;" onclick="updateRow(this);">修改<a> <a style="color:blue;cursor:pointer;" onclick="delRow(this);">删除</a></td>
+                <td>
+                    <a style="color:blue;cursor:pointer;" onclick="updateRow(this);">修改<a> <a style="color:blue;cursor:pointer;" onclick="delRow(this);">删除</a>
+                </td>
             </tr>
             <tr>
                 <td>A3</td>
