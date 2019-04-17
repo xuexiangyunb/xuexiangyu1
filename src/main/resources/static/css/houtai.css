@@ -32,7 +32,7 @@ html,body{height:100%;}
 .ad-top-comment .ad-message .ad-change-btn{float:left;margin-top:6px;}
 .ad-top-comment .ad-message .ad-list-btn{display:inline-block;width:16px;height:13px;background-position:-62px -29px;}
 .ad-top-comment .ad-message .ad-search-box{margin-left:75px;}
-.ad-top-comment .ad-message .ad-search-sel{float:left;height:30px;margin-left:118px;}
+.ad-top-comment .ad-message .ad-search-sel{float:left;height:30px;margin-left:100px;}
 .ad-top-comment .ad-message .ad-search-sel select{min-width:85px;height:30px;border:0 none;padding:0 5px;}
 .ad-top-comment .ad-message .ad-search-cha{float:left;height:30px;position:relative;}
 .ad-top-comment .ad-message .ad-search-cha .ad-search-input{width:266px;height:30px;vertical-align:middle;border:0 none;padding-left:5px;padding-right:36px;}
