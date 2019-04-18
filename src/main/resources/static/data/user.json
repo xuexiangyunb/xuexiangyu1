@@ -1,0 +1,88 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 11,
+  "data": [
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role":1
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 3
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+
+    },
+
+    {
+      "id": "001",
+      "username": "zhangsan",
+
+      "password": "111111",
+
+      "role": 0
+    }
+  ]
+}
