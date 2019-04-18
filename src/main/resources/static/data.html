@@ -57,7 +57,8 @@
         NProgress.done();
     }
     // layui相关
-    layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function () {
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function ()
+    {
         var element = layui.element;
         var table = layui.table;
         var form = layui.form;
@@ -76,7 +77,7 @@
 
         table.render({
             elem: '#tableId',
-            url: 'data/shebei.json',
+            url: 'data/data.json',
             limit: 10,
             page: true,
             even: true,
@@ -84,8 +85,8 @@
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'admin', title: '所属用户', width: 150},
-                {field: 'site', title: '柜子地点', width: 250,},
-                {field: 'name', title: '柜子名字', width: 80},
+                {field: 'site', title: '柜子地点', width: 150,},
+                {field: 'name', title: '柜子名字', width: 150},
                 {field: 'time', title: '时间', width: 100},
                 {field: 'tem', title: '温度', width: 100,},
                 {field: 'hum', title: '湿度', width: 100,},
@@ -112,7 +113,7 @@
                     maxmin: true,
                     shade: 0.5,
                     area: ['90%', '90%'],
-                    content: 'shebei-edit.html',
+                    content: 'data-edit.html',
                     zIndex: layer.zIndex,
                     end: function () {
                         $(".layui-laypage-btn")[0].click();
@@ -124,61 +125,53 @@
                 });
             }
         });
-    })
-    $("#batchDel").click(function () {
-        layer.confirm("确定要批量删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
-            var checkStatus = table.checkStatus('tableId');
-            var rows = checkStatus.data.length;
-            if (rows > 0) {
-                var idsStr = "";
-                for (var i = 0; i < checkStatus.data.length; i++) {
-                    idsStr += checkStatus.data[i].id + ',';
-                }
-                console.log("选择的id-->" + idsStr);
-                layer.msg("操作成功！", {icon: 1, time: 1000}, function () {
-                    $(".layui-laypage-btn")[0].click();
-                });
-            } else {
-                layer.msg('未选择有效数据', {
-                    offset: 't',
-                    anim: 6
-                });
-            }
-        });
-    })
-    $("#addUser").click(function () {
-        layer.open({
-            title: '添加数据',
-            type: 2,
-            shade: false,
-            maxmin: true,
-            shade: 0.5,
-            anim: 4,
-            area: ['90%', '90%'],
-            content: 'shebei-add.html',
-            zIndex: layer.zIndex,
-            // skin: 'layui-layer-molv',
-            end: function () {
-                $(".layui-laypage-btn")[0].click();
-            }
-        });
-    })
 
+        $("#batchDel").click(function () {
+            layer.confirm("确定要批量删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+                var checkStatus = table.checkStatus('tableId');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = "";
+                    for (var i = 0; i < checkStatus.data.length; i++) {
+                        idsStr += checkStatus.data[i].id + ',';
+                    }
+                    console.log("选择的id-->" + idsStr);
+                    layer.msg("操作成功！", {icon: 1, time: 1000}, function () {
+                        $(".layui-laypage-btn")[0].click();
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+        $("#addUser").click(function () {
+            layer.open({
+                title: '添加数据',
+                type: 2,
+                shade: false,
+                maxmin: true,
+                shade: 0.5,
+                anim: 4,
+                area: ['90%', '90%'],
+                content: 'data-add.html',
+                zIndex: layer.zIndex,
+                // skin: 'layui-layer-molv',
+                end: function () {
+                    $(".layui-laypage-btn")[0].click();
+                }
+            });
+        })
+    })
 
 
 
 
 </script>
 <!--模板-->
-<script type="text/html" id="urlTpl">
-    <a href="{{d.url}}" target="_blank">{{d.url}}</a>
-</script>
-<script type="text/html" id="topTpl">
-    <input type="checkbox" name="isTop" value="{{d.isTop}}" lay-skin="switch" lay-text="是|否" {{ d.isTop== true ? 'checked' : ''}}>
-</script>
-<script type="text/html" id="statusTpl">
-    <input type="checkbox" name="top" value="{{d.status}}" lay-skin="switch" lay-text="上架|下架" {{ d.status== true ? 'checked' : ''}}>
-</script>
+
 <script type="text/html" id="operationTpl">
     <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
     <a href="javascript:;" title="删除" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
