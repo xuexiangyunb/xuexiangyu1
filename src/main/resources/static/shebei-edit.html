@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>编辑文章</title>
+    <title>修改数据</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
     <link rel="stylesheet" href="css/scroll-bar.css">
@@ -14,56 +14,51 @@
     <!--面包屑导航区域-->
     <div class="ok-body-breadcrumb">
             <span class="layui-breadcrumb">
-                <a><cite>首页</cite></a>
-                <a><cite>常用页面</cite></a>
-                <a><cite>用户列表</cite></a>
-				<a><cite>编辑文章</cite></a>
+                <a><cite>开关柜查询</cite></a>
+                <a><cite>开关柜信息列表</cite></a>
+				<a><cite>修改数据</cite></a>
+
             </span>
         <a class="layui-btn layui-btn-small" href="javascript:location.replace(location.href);" title="刷新">
             <i class="layui-icon layui-icon-refresh"></i>
         </a>
     </div>
     <!--form表单-->
-    <form class="layui-form ok-form">
+    <form class="layui-form layui-form-pane ok-form">
         <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
+            <label class="layui-form-label">所属用户</label>
             <div class="layui-input-block">
-                <input type="text" name="title" placeholder="请输入文章标题" autocomplete="off" class="layui-input" lay-verify="required">
+                <input type="text" name="title" placeholder="请输入用户名" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">分类</label>
+            <label class="layui-form-label">柜子地点</label>
             <div class="layui-input-block">
-                <select name="classify">
-                    <option value="0">公告</option>
-                    <option value="1">言情</option>
-                    <option value="2">都市</option>
-                    <option value="3">修仙</option>
-                </select>
+                <input type="text" name="title" placeholder="请输入地点" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">标签</label>
+            <label class="layui-form-label">柜子名字</label>
             <div class="layui-input-block">
-                <input type="text" name="label" placeholder="请输入文章标签" autocomplete="off" class="layui-input" lay-verify="required">
+                <input type="text" name="label" placeholder="请输入名字" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">状态</label>
+            <label class="layui-form-label">时间</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|停用" checked value="0">
+                <input type="text" name="title" placeholder="请输入时间" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">置顶</label>
+            <label class="layui-form-label">温度</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="isTop" lay-skin="switch" lay-text="是|否" value="0">
+                <input type="text" name="title" placeholder="请输入温度" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">内容</label>
+        <div class="layui-form-item">
+            <label class="layui-form-label">湿度</label>
             <div class="layui-input-block">
-                <textarea name="content" placeholder="请输入文章内容" class="layui-textarea" lay-verify="required"></textarea>
+                <input type="text" name="title" placeholder="请输入湿度" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">

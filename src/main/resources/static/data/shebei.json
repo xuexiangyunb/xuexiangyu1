@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 2,
+  "data": [
+    {
+      "id": "001",
+      "admin": "admin1",
+      "site": "五组团1号楼",
+      "name": "001",
+      "time": "admin",
+      "tem": "001",
+      "hum": "001"
+    },
+    {
+      "id": "001",
+      "admin": "admin1",
+      "site": "五组团1号楼",
+      "name": "001",
+      "time": "admin",
+      "tem": "001",
+      "hum": "001"
+    }
+  ]
+}
