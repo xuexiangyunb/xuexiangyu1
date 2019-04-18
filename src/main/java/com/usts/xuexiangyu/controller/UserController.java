@@ -47,13 +47,13 @@ public class UserController {
             Cookie ck = new Cookie("name", name);
             ck.setMaxAge(-1);
             response.addCookie(ck);
-            response.sendRedirect("index.html");
+            response.sendRedirect("1.html");
         }else{
             //管理员，跳转到admin.html
             Cookie ck = new Cookie("name", name);
             ck.setMaxAge(-1);
             response.addCookie(ck);
-            response.sendRedirect("admin.html");
+            response.sendRedirect("index.html");
         }
 
     }
