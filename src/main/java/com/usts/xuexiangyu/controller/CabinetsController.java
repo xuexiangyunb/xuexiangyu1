@@ -6,6 +6,7 @@ import com.usts.xuexiangyu.pojo.Data;
 import com.usts.xuexiangyu.pojo.Users;
 import com.usts.xuexiangyu.service.CabinetsService;
 import com.usts.xuexiangyu.service.DataService;
+import com.usts.xuexiangyu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,8 @@ public class CabinetsController {
     CabinetsService cabinetsService;
     @Autowired
     DataService dataService;
+    @Autowired
+    UserService userService;
     //增加用户，从前端获取用户姓名和密码
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
@@ -100,7 +103,8 @@ public class CabinetsController {
             List<Cabinets> list = cabinetsService.listCabinets();
             List<CabinetsVO> cabinetsVoList = new ArrayList<>();
 
-            for(int i = 0;i<list.size();i++){
+            for(int i = 0;i<list.size();i++)
+            {
                 CabinetsVO cv = new CabinetsVO();
                 Cabinets c = list.get(i);
                 cv.setId(c.getcId());
@@ -111,21 +115,124 @@ public class CabinetsController {
                 //获取这个柜子的所有data后，比较时间，找到最新时间点的数据
                 //通过调用cv.set。。。方法，设置到视图层对象里
                 List<Data> dataList = dataService.listData();
-
-
+                int size = dataList.size();
+                for(int k = size-1;k>=0;k--){
+                    Data  kkkk = dataList.get(k);
+                    if(!(kkkk.getcId() == c.getcId())){
+                        dataList.remove(k);
+                    }
+                }
+                if(dataList.size() == 0){
+                    continue;
+                }
+                Data data = this.compareTime(dataList);
+                cv.setHum(data.getdHum());
+                cv.setTem(data.getdTem());
+                cv.setTime(data.getdTime());
+//下面是获取柜子所属的用户名
+                List<Users> usersList = userService.listUsers();
+                for(int m = 0;m<usersList.size();m++){
+                    if(usersList.get(m).getuId() == c.getuId()){
+                        cv.setAdmin(usersList.get(m).getuName());
+                    }
+                }
                 cabinetsVoList.add(cv);
-
-
             }
+            map.put("code",0);
+            map.put("msg","shabi");
+            map.put("count",cabinetsVoList.size());
             map.put("data",cabinetsVoList);
             return map;
         }
     }
 
+    private Data compareTime(List<Data> dataList) {
+        int year1;
+        int year2;
+        int month1;
+        int month2;
+        int day1;
+        int day2;
+        int hour1;
+        int hour2;
+        int minute1;
+        int minute2;
 
+        Data d = dataList.get(0);
+        for (int i = 0; i < dataList.size() - 1; i++) {
+            Data d1 = dataList.get(i);
+            Data d2 = dataList.get(i + 1);
+            year1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[0]);
+            year2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[0]);
+            month1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[1]);
+            month2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[1]);
+            day1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[2]);
+            day2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[2]);
+            hour1 = Integer.parseInt(d1.getdTime().split(" ")[1].split(":")[0]);
+            hour2 = Integer.parseInt(d2.getdTime().split(" ")[1].split(":")[0]);
+            minute1 = Integer.parseInt(d1.getdTime().split(" ")[1].split(":")[1]);
+            minute2 = Integer.parseInt(d2.getdTime().split(" ")[1].split(":")[1]);
 
+            if (year1 == year2) {
+                if (month1 == month2) {
+                    if (day1 == day2) {
+                        if (hour1 == hour2) {
+                            if (minute1 > minute2) {
+                                d = dataList.get(i);
+                            } else {
+                                d = dataList.get(i + 1);
+                            }
 
+                        } else if (hour1 > hour2) {
+                            d = dataList.get(i);
+                        } else {
+                            d = dataList.get(i + 1);
+                        }
+                    } else if (day1 > day2) {
+                        d = dataList.get(i);
+                    } else {
+                        d = dataList.get(i + 1);
+                    }
+                } else if (month1 > month2) {
+                    d = dataList.get(i);
+                } else {
+                    d = dataList.get(i + 1);
+                }
+            } else if (year1 > year2) {
+                d = dataList.get(i);
+            } else {
+                d = dataList.get(i + 1);
+            }
+        }
 
-
-
+        return d;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

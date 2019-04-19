@@ -75,16 +75,14 @@
 
         table.render({
             elem: '#tableId',
-            url: 'data/role.json',
+            url: 'listUser',
             limit: 10,
             page: true,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'name', title: '角色名', width: 100},
-                {field: 'remarks', title: '备注', width: 100},
-                {field: 'createUser', title: '创建者', width: 85},
-                {field: 'createTime', title: '创建时间', width: 200},
+                {field: 'time', title: '创建时间', width: 200},
                 {title: '操作', width: 200, templet: '#operationTpl', align: 'center'}
             ]],
             done: function (res, curr, count) {

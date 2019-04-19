@@ -1,5 +1,6 @@
 package com.usts.xuexiangyu.service.serviceImpl;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.usts.xuexiangyu.dao.DataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,6 @@ public class DataServiceImpl implements DataService {
         List<Data> list = this.dataRepository.findAll();
         return list;
     }
+
+
 }
