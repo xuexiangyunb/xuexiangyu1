@@ -109,7 +109,7 @@ public class CabinetsController {
                 //这个方法主要用来传入柜子的id，然后获得这个柜子的所有data
                 //获取这个柜子的所有data后，比较时间，找到最新时间点的数据
                 //通过调用cv.set。。。方法，设置到视图层对象里
-                List<Data> dataList = dataService.listData(这里就是那个方法);
+                List<Data> dataList = dataService.listData();
 
 
                 cabinetsVoList.add(cv);

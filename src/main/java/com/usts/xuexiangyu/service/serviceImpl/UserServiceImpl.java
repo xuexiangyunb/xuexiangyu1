@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
         List<Data> dataList = dataRepository.findAll();
         for(int i = 0;i<list.size();i++){
             Users user = list.get(i);
+            System.out.println(user);
             int cid = 0;
             if(user.getuName().equals(u.getuName()) && user.getuPwd().equals(u.getuPwd())){
                 //普通用户，返回管理的柜子的数据

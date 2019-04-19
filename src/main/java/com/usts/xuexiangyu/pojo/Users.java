@@ -15,15 +15,18 @@ public class Users {
     private String uPwd ;
     @Column(name = "u_role")
     private int uRole;
+    @Column(name = "u_Time")
+    private String uTime;
 
     public Users() {
     }
 
-    public Users(int uId, String uName, String uPwd, int uRole) {
+    public Users(int uId, String uName, String uPwd, int uRole, String uTime) {
         this.uId = uId;
         this.uName = uName;
         this.uPwd = uPwd;
         this.uRole = uRole;
+        this.uTime = uTime;
     }
 
     public int getuId() {
@@ -42,6 +45,14 @@ public class Users {
         this.uName = uName;
     }
 
+    public String getuTime() {
+        return uTime;
+    }
+
+    public void setuTime(String uTime) {
+        this.uTime = uTime;
+    }
+
     public String getuPwd() {
         return uPwd;
     }
@@ -49,6 +60,7 @@ public class Users {
     public void setuPwd(String uPwd) {
         this.uPwd = uPwd;
     }
+
 
     public int getuRole() {
         return uRole;
@@ -64,6 +76,7 @@ public class Users {
                 "uId='" + uId + '\'' +
                 ", uName='" + uName + '\'' +
                 ", uPwd='" + uPwd + '\'' +
+                ", uTime='" + uTime + '\'' +
                 ", uRole=" + uRole +
                 '}';
     }

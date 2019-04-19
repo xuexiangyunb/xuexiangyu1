@@ -68,11 +68,13 @@ public class UserController {
         HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
+        String time = request.getParameter("time");
         //将获取的用户姓名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuName(name);
         u.setuPwd(pwd);
         u.setuRole(1);
+        u.setuTime(time);
         userService.addUser(u);
         return "success.html";
     }
@@ -101,12 +103,14 @@ public class UserController {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
+        String time = request.getParameter("time");
         //将获取的用户id，用户名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuId(id);
         u.setuName(name);
         u.setuPwd(pwd);
         u.setuRole(1);
+        u.setuTime(time);
         userService.updateUser(u);
         return "success.html";
     }
