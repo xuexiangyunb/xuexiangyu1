@@ -1,8 +1,11 @@
 package com.usts.xuexiangyu.controller;
 
 import com.usts.xuexiangyu.pojo.Cabinets;
+import com.usts.xuexiangyu.pojo.CabinetsVO;
+import com.usts.xuexiangyu.pojo.Data;
 import com.usts.xuexiangyu.pojo.Users;
 import com.usts.xuexiangyu.service.CabinetsService;
+import com.usts.xuexiangyu.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +27,8 @@ import java.util.Map;
 public class CabinetsController {
     @Autowired
     CabinetsService cabinetsService;
+    @Autowired
+    DataService dataService;
     //增加用户，从前端获取用户姓名和密码
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
@@ -91,13 +97,30 @@ public class CabinetsController {
             return map;
         }else{
             List<Cabinets> list = cabinetsService.listCabinets();
+            List<CabinetsVO> cabinetsVoList = new ArrayList<>();
+
             for(int i = 0;i<list.size();i++){
-                System.out.println(list.get(i).toString());
+                CabinetsVO cv = new CabinetsVO();
+                Cabinets c = list.get(i);
+                cv.setId(c.getcId());
+                cv.setName(c.getcName());
+                cv.setSite(c.getcSite());
+                //data,湿度 温度 时间的设置  需要dataService添加一个方法
+                //这个方法主要用来传入柜子的id，然后获得这个柜子的所有data
+                //获取这个柜子的所有data后，比较时间，找到最新时间点的数据
+                //通过调用cv.set。。。方法，设置到视图层对象里
+                List<Data> dataList = dataService.listData(这里就是那个方法);
+
+
+                cabinetsVoList.add(cv);
+
+
             }
-            map.put("cabinetsList",list);
+            map.put("data",cabinetsVoList);
             return map;
         }
     }
+
 
 
 
