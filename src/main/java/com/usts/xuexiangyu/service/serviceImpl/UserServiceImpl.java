@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Integer> login(Users u) {
         Map<String,Integer> map = new HashMap<>();
+        map.put("role",3);
+
         List<Users> list = userRepository.findAll();
         List<Cabinets> cabinetsList = cabinetsRepository.findAll();
         List<Data> dataList = dataRepository.findAll();
