@@ -1,6 +1,7 @@
 package com.usts.xuexiangyu.controller;
 
-import com.usts.xuexiangyu.pojo.Data;
+import com.usts.xuexiangyu.pojo.*;
+import javafx.scene.chart.PieChart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +9,10 @@ import com.usts.xuexiangyu.service.DataService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,13 +85,35 @@ public class DataController {
     //注意：此功能先不要写，需要登录,但是可以先测试一下看看效果
     @RequestMapping("/listData")
     public @ResponseBody
-    Map<String, Object> listData(){
+    Map<String, Object> listData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<Data> list = dataService.listData();
-        map.put("dataList",list);
-        return map;
-    }
+        System.out.println(request.getCookies().length);
+        //如果没登录，提示没登录
+        if (request.getCookies().length < 3) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+            List<Data> list = dataService.listData();
+            List<DataVO> dataVoList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+               DataVO dk = new DataVO();
+                Data d = list.get(i);
+                dk.setId(d.getcId());
+                dk.setTime(d.getdTime());
+                dk.setHum(d.getdHum());
+                dk.setTem(d.getdTem());
+                dataVoList.add(dk);
+            }
+            map.put("code", 0);
+            map.put("msg", "WWW");
+            map.put("count", dataVoList.size());
+            map.put("data", dataVoList);
 
+
+            return map;
+        }
+    }
 
 
 

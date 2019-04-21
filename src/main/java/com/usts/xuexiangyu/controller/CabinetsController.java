@@ -1,9 +1,6 @@
 package com.usts.xuexiangyu.controller;
 
-import com.usts.xuexiangyu.pojo.Cabinets;
-import com.usts.xuexiangyu.pojo.CabinetsVO;
-import com.usts.xuexiangyu.pojo.Data;
-import com.usts.xuexiangyu.pojo.Users;
+import com.usts.xuexiangyu.pojo.*;
 import com.usts.xuexiangyu.service.CabinetsService;
 import com.usts.xuexiangyu.service.DataService;
 import com.usts.xuexiangyu.service.UserService;
@@ -36,7 +33,7 @@ public class CabinetsController {
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
     @RequestMapping("/addCabinets")
-    public String addCabinets(HttpServletRequest request){
+    public String addCabinets(HttpServletRequest request) {
         //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         String name = request.getParameter("name");
@@ -54,7 +51,7 @@ public class CabinetsController {
     //删除用户，从前端获取用户的id
     //前端测试地址为：http://localhost:8080/delUser?id=11
     @RequestMapping("/delCabinets")
-    public String delUser(HttpServletRequest request){
+    public String delUser(HttpServletRequest request) {
         //获取用户id，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
@@ -69,7 +66,7 @@ public class CabinetsController {
     //前端测试地址为：http://localhost:8080/updateUser?id=11&name=zhouha&pwd=145236
     //注意：没有加密码为空的判断
     @RequestMapping("/updateCabinets")
-    public String updateUser(HttpServletRequest request){
+    public String updateUser(HttpServletRequest request) {
         //获取用户id，用户名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
@@ -91,20 +88,19 @@ public class CabinetsController {
     //注意：此功能先不要写，需要登录,但是可以先测试一下看看效果
     @RequestMapping("/listCabinets")
     public @ResponseBody
-    Map<String, Object> listCabinets(HttpServletRequest request , HttpServletResponse response) throws IOException {
+    Map<String, Object> listCabinets(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-        if(request.getCookies().length < 3){
-            map.put("respCode",1);
-            map.put("respDesc","您尚未登录，请先登录！");
+        if (request.getCookies().length < 3) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
             return map;
-        }else{
+        } else {
             List<Cabinets> list = cabinetsService.listCabinets();
             List<CabinetsVO> cabinetsVoList = new ArrayList<>();
 
-            for(int i = 0;i<list.size();i++)
-            {
+            for (int i = 0; i < list.size(); i++) {
                 CabinetsVO cv = new CabinetsVO();
                 Cabinets c = list.get(i);
                 cv.setId(c.getcId());
@@ -116,13 +112,13 @@ public class CabinetsController {
                 //通过调用cv.set。。。方法，设置到视图层对象里
                 List<Data> dataList = dataService.listData();
                 int size = dataList.size();
-                for(int k = size-1;k>=0;k--){
-                    Data  kkkk = dataList.get(k);
-                    if(!(kkkk.getcId() == c.getcId())){
+                for (int k = size - 1; k >= 0; k--) {
+                    Data kkkk = dataList.get(k);
+                    if (!(kkkk.getcId() == c.getcId())) {
                         dataList.remove(k);
                     }
                 }
-                if(dataList.size() == 0){
+                if (dataList.size() == 0) {
                     continue;
                 }
                 Data data = this.compareTime(dataList);
@@ -131,17 +127,17 @@ public class CabinetsController {
                 cv.setTime(data.getdTime());
 //下面是获取柜子所属的用户名
                 List<Users> usersList = userService.listUsers();
-                for(int m = 0;m<usersList.size();m++){
-                    if(usersList.get(m).getuId() == c.getuId()){
+                for (int m = 0; m < usersList.size(); m++) {
+                    if (usersList.get(m).getuId() == c.getuId()) {
                         cv.setAdmin(usersList.get(m).getuName());
                     }
                 }
                 cabinetsVoList.add(cv);
             }
-            map.put("code",0);
-            map.put("msg","shabi");
-            map.put("count",cabinetsVoList.size());
-            map.put("data",cabinetsVoList);
+            map.put("code", 0);
+            map.put("msg", "shabi");
+            map.put("count", cabinetsVoList.size());
+            map.put("data", cabinetsVoList);
             return map;
         }
     }
@@ -207,10 +203,8 @@ public class CabinetsController {
 
         return d;
     }
+
 }
-
-
-
 
 
 

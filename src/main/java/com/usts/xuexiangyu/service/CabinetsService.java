@@ -9,4 +9,5 @@ public interface CabinetsService {
     public void delCabinets(Cabinets u);
     public void updateCabinets(Cabinets u);
     public List<Cabinets> listCabinets();
+
 }

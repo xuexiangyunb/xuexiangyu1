@@ -74,16 +74,13 @@
 * */
         table.render({
             elem: '#tableId',
-            url: 'data/data.json',
+            url: 'listdata',
             limit: 100,
             page: true,
             even: true,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
-                {field: 'admin', title: '所属用户', width: 150},
-                {field: 'site', title: '柜子地点', width: 150,},
-                {field: 'name', title: '柜子名字', width: 150},
                 {field: 'tem', title: '温度', width: 100,},
                 {field: 'hum', title: '湿度', width: 100,},
                 {field: 'time', title: '时间', width: 100},

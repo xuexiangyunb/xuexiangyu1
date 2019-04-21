@@ -133,21 +133,76 @@ public class UserController {
             List<Users> list = userService.listUsers();
             List<UsersVO> usersVoList = new ArrayList<>();
 
+
             for (int i = 0; i < list.size(); i++) {
                 UsersVO uv = new UsersVO();
                 Users u = list.get(i);
                 uv.setId(u.getuId());
                 uv.setName(u.getuName());
                 uv.setTime(u.getuTime());
+                uv.setPwd(u.getuPwd());
+                uv.setRole(u.getuRole());
                 usersVoList.add(uv);
             }
             map.put("code", 0);
             map.put("msg", "WWW");
             map.put("count", usersVoList.size());
             map.put("data", usersVoList);
+
+
+            //UsermVO未使用
+          /* List<UsersmVO> usersmVoList = new ArrayList<>();
+                for (int i = 0; i < list.size(); i++) {
+                    UsersmVO uk = new UsersmVO();
+                    Users u = list.get(i);
+                    uk.setId(u.getuId());
+                    uk.setName(u.getuName());
+                    uk.setPwd(u.getuPwd());
+                    uk.setRole(u.getuRole());
+                    usersmVoList.add(uk);
+                }
+                map.put("code", 0);
+                map.put("msg", "WWW");
+                map.put("count", usersmVoList.size());
+                map.put("data", usersmVoList);*/
+
+
             return map;
         }
     }
+
+    @RequestMapping("/listmUser")
+    public @ResponseBody
+    Map<String, Object> listmUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        System.out.println(request.getCookies().length);
+        //如果没登录，提示没登录
+        if (request.getCookies().length < 3) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+            List<Users> list = userService.listUsers();
+            List<UsersmVO> usersmVoList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                UsersmVO uk = new UsersmVO();
+                Users u = list.get(i);
+                uk.setId(u.getuId());
+                uk.setName(u.getuName());
+                uk.setPwd(u.getuPwd());
+                uk.setRole(u.getuRole());
+                usersmVoList.add(uk);
+            }
+            map.put("code", 0);
+            map.put("msg", "WWW");
+            map.put("count", usersmVoList.size());
+            map.put("data", usersmVoList);
+
+
+            return map;
+        }
+    }
+
 }
 
 

@@ -50,14 +50,14 @@
 
         table.render({
             elem: '#tableId',
-            url: 'data/user.json',
+            url: 'listmUser',
             limit: 10,
             page: true,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
-                {field: 'username', title: '用户名', width: 100},
-                {field: 'password', title: '密码', width: 100},
+                {field: 'name', title: '用户名', width: 100},
+                {field: 'pwd', title: '密码', width: 100},
                 {field: 'role', title: '角色身份（1或2）', width: 150, templet: '#roleTpl'},
                 {title: '操作', width: 100, templet: '#operationTpl', align: 'center'}
             ]],

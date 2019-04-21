@@ -34,4 +34,5 @@ public class CabinetsServiceImpl implements CabinetsService {
         List<Cabinets> list = this.cabinetsRepository.findAll();
         return list;
     }
+
 }
