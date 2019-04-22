@@ -41,9 +41,6 @@
     <button class="layui-btn" id="addUser">
         <i class="layui-icon">&#xe61f;</i>添加数据
     </button>
-        <button class="layui-btn" id="addSel">
-            <i class="layui-icon">&#xe615;</i>查询历史数据
-        </button>
 
     <span>共有数据：<i id="countNum"></i> 条</span>
     </okToolbar>
@@ -61,13 +58,13 @@
         NProgress.done();
     }
     // layui相关
-    layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function () {
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','upload'], function () {
         var element = layui.element;//获得模块
         var table = layui.table;
         var form = layui.form;
         var $ = layui.jquery;
         var laydate = layui.laydate;//使用模块
-
+        var upload = layui.upload;
         laydate.render({
             elem: '#startTime',
             type: "datetime"
@@ -130,8 +127,23 @@
                 });
 
             }
+            if (layEvent === 'sel')
+            {
+                layer.open({
+                title: '查询历史数据',
+                type: 2,
+                shade: false,
+                maxmin: true,
+                shade: 0.5,
+                area: ['90%', '90%'],
+                content: 'data-sel.html'+"?tableId="+data.tableId,
+                zIndex: layer.zIndex,
+                end: function () {
+                    $(".layui-laypage-btn")[0].click();
+                }
+            });
 
-
+            }
 
             else if (layEvent === 'del') {
                 layer.confirm("确定要删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
@@ -140,37 +152,6 @@
 
             }
         });
-        $("#addSel").click(function () {
-            layer.confirm("确定要查看该开关柜历史数据吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 6}, function () {
-                var checkStatus = table.checkStatus('tableId');
-                var rows = checkStatus.data.length;
-                if (rows > 0) {
-                    var idsStr = "";
-                    for (var i = 0; i < checkStatus.data.length; i++) {
-                        idsStr += checkStatus.data[i].id + ',';
-                    }
-                    console.log("选择的id-->" + idsStr);
-                    layer.open({
-                        title: '查询历史数据',
-                        type: 2,
-                        shade: false,
-                        maxmin: true,
-                        shade: 0.5,
-                        area: ['90%', '90%'],
-                        content: 'data-sel.html',
-                        zIndex: layer.zIndex,  end: function () {
-                            $(".layui-laypage-btn")[0].click();
-                        }
-                    });
-
-                } else {
-                    layer.msg('未选择有效数据', {
-                        offset: 't',
-                        anim: 6
-                    });
-                }
-            });
-        })
 
         $("#batchDel").click(function () {
             layer.confirm("确定要批量删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
@@ -222,6 +203,7 @@
 <script type="text/html" id="operationTpl">
     <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
     <a href="javascript:;" title="删除" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+    <a href="javascript:;" title="查询历史数据" lay-event="sel"><i class="layui-icon">&#xe615;</i></a>
 
 </script>
 </body>

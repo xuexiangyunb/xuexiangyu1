@@ -80,59 +80,25 @@ public class DataController {
         return "success.html";
     }
 
-
+    //显示所有用户
+    //前端测试地址为：http://localhost:8080/listUser
+    //注意：此功能先不要写，需要登录,但是可以先测试一下看看效果
     @RequestMapping("/listData")
     public @ResponseBody
     Map<String, Object> listData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-        if (request.getCookies().length < 2) {
+       if (request.getCookies().length < 2) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
-            List<Data> list = dataService.listData();
-            List<DataVO> dataVoList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-               DataVO dk = new DataVO();
-                Data d = list.get(i);
-                dk.setId(d.getcId());
-                dk.setTime(d.getdTime());
-                dk.setHum(d.getdHum());
-                dk.setTem(d.getdTem());
-                dataVoList.add(dk);
-            }
-            map.put("code", 0);
-            map.put("msg", "WWW");
-            map.put("count", dataVoList.size());
-            map.put("data", dataVoList);
-
-
-            return map;
-        }
-
-    }
-    /*获取历史数据
-    * 需要前端传过来一个柜子的id（cId）
-    * 根据柜子id，返回这个柜子的所有数据*/
-    @RequestMapping("/listhData")
-    public @ResponseBody
-    Map<String, Object> listhData(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        System.out.println(request.getCookies().length);
-        //如果没登录，提示没登录
-        if (request.getCookies().length < 2) {
-            map.put("respCode", 1);
-            map.put("respDesc", "您尚未登录，请先登录！");
-            return map;
-        } else {
-            /*登录之后的操作*/
             String cId = request.getParameter("cId");
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if(list.get(i).getcId() == Integer.parseInt(cId)){
+                if (list.get(i).getcId() == Integer.parseInt(cId)) {
                     DataVO dk = new DataVO();
                     Data d = list.get(i);
                     dk.setId(d.getcId());
@@ -146,14 +112,16 @@ public class DataController {
             map.put("msg", "WWW");
             map.put("count", dataVoList.size());
             map.put("data", dataVoList);
+
+
             return map;
         }
     }
 
-
-
-
-
-
-
 }
+
+
+
+
+
+
