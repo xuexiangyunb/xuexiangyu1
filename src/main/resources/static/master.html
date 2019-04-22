@@ -139,6 +139,7 @@
 
 
         }
+        }
         #h8 { margin-top:70px;
             margin-left: 50px;
             float:left;
@@ -159,6 +160,7 @@
         <div id="h5">
             <img src="images/tep.jpg" height="100" width="100"/></div>
         <div id="h6">
+
 
         </div>
         <div id="p5">
@@ -207,7 +209,7 @@
 <script  type="text/javascript">
     $(document).ready(function() {
         $.ajax({
-            url : "",//后台请求的数据，
+            url : "listdata",//后台请求的数据，
             dataType : "json",//数据格式
             type : "post",//请求方式
             async : false,//是否异步请求
@@ -215,14 +217,12 @@
                 var html = "";
                 for(var i=0;i<data.length;i++){  //遍历data数组
                     var ls = data[i];
-                    html +="<span>测试："+ls.name+"</span>";
+                    html +="<span>"+ls.hum+"</span>";
                 }
                 $("#h6").html(html); //在html页面id=H6的标签里显示html内容
             },
         })
     })
-
-
 
 
 
