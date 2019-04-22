@@ -89,21 +89,24 @@ public class DataController {
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-        if (request.getCookies().length < 3) {
+       if (request.getCookies().length < 2) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
+            String cId = request.getParameter("cId");
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-               DataVO dk = new DataVO();
-                Data d = list.get(i);
-                dk.setId(d.getcId());
-                dk.setTime(d.getdTime());
-                dk.setHum(d.getdHum());
-                dk.setTem(d.getdTem());
-                dataVoList.add(dk);
+                if (list.get(i).getcId() == Integer.parseInt(cId)) {
+                    DataVO dk = new DataVO();
+                    Data d = list.get(i);
+                    dk.setId(d.getcId());
+                    dk.setTime(d.getdTime());
+                    dk.setHum(d.getdHum());
+                    dk.setTem(d.getdTem());
+                    dataVoList.add(dk);
+                }
             }
             map.put("code", 0);
             map.put("msg", "WWW");
@@ -115,8 +118,10 @@ public class DataController {
         }
     }
 
-
-
-
-
 }
+
+
+
+
+
+
