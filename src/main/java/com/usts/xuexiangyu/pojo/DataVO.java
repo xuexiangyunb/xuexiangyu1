@@ -2,7 +2,6 @@ package com.usts.xuexiangyu.pojo;
 
 public class DataVO {
     int id;
-
     String time;
     String tem;
     String hum;

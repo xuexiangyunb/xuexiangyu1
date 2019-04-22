@@ -86,7 +86,7 @@
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'tem', title: '温度', width: 100,},
                 {field: 'hum', title: '湿度', width: 100,},
-                {field: 'time', title: '时间', width: 100},
+                {field: 'time', title: '时间', width: 200},
                 {title: '操作', width: 200, align: 'center', templet: '#operationTpl',}
             ]],
             done: function (res, curr, count) {
@@ -119,7 +119,6 @@
                 });
 
             }
-
 
 
             else if (layEvent === 'del') {
