@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.usts.xuexiangyu.service.DataService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @Controller
 public class DataController {
+    boolean isLogin = false;
     @Autowired
     DataService dataService;
     //增加用户，从前端获取用户姓名和密码
@@ -87,9 +89,15 @@ public class DataController {
     public @ResponseBody
     Map<String, Object> listData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-       if (request.getCookies().length < 2) {
+        Cookie[] cks = request.getCookies();
+        for(Cookie ck : cks){
+            if(ck.getValue().equals("1")){
+                this.isLogin = true;
+                break;
+            }
+        }
+       if (!this.isLogin) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;

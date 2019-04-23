@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     @Autowired
     UserService userService;
+    boolean isLogin = false;
 
 
     /*登录
@@ -39,21 +40,29 @@ public class UserController {
         u.setuPwd(pwd);
         map = userService.login(u);
         //map为空，说明用户名或者密码错误，跳转到登录页面重新登录
-        if (map == null) {
+        if (map.get("login")==2) {
+            Cookie ckIsLogin = new Cookie("isLogin","0");
+            ckIsLogin.setMaxAge(-1);
+            response.addCookie(ckIsLogin);
             response.sendRedirect("login.html");
         }
-
         //普通用户，返回index.html
         else if (map.get("role") == 2) {
-            Cookie ck = new Cookie("name", name);
-            ck.setMaxAge(-1);
-            response.addCookie(ck);
+            Cookie ckName = new Cookie("name", name);
+            Cookie ckIsLogin = new Cookie("isLogin","1");
+            ckName.setMaxAge(-1);
+            ckIsLogin.setMaxAge(-1);
+            response.addCookie(ckName);
+            response.addCookie(ckIsLogin);
             response.sendRedirect("1.html");
         } else {
             //管理员，跳转到admin.html
-            Cookie ck = new Cookie("name", name);
-            ck.setMaxAge(-1);
-            response.addCookie(ck);
+            Cookie ckName = new Cookie("name", name);
+            Cookie ckIsLogin = new Cookie("isLogin","1");
+            ckName.setMaxAge(-1);
+            ckIsLogin.setMaxAge(-1);
+            response.addCookie(ckName);
+            response.addCookie(ckIsLogin);
             response.sendRedirect("index.html");
         }
 
@@ -132,9 +141,14 @@ public class UserController {
     public @ResponseBody
     Map<String, Object> listUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        System.out.println(request.getCookies().length);
-        //如果没登录，提示没登录
-        if (request.getCookies().length < 2) {
+        Cookie[] cks = request.getCookies();
+        for(Cookie ck : cks){
+            if(ck.getValue().equals("1")){
+                this.isLogin = true;
+                break;
+            }
+        }
+        if (!this.isLogin) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;

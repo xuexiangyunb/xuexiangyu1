@@ -29,6 +29,8 @@ public class CabinetsController {
     DataService dataService;
     @Autowired
     UserService userService;
+    boolean isLogin = false;
+
     //增加用户，从前端获取用户姓名和密码
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
@@ -90,9 +92,15 @@ public class CabinetsController {
     public @ResponseBody
     Map<String, Object> listCabinets(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        System.out.println(request.getCookies().length);
+        Cookie[] cks = request.getCookies();
+        for(Cookie ck : cks){
+            if(ck.getValue().equals("1")){
+                this.isLogin = true;
+                break;
+            }
+        }
         //如果没登录，提示没登录
-        if (request.getCookies().length < 2) {
+        if (!this.isLogin) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;

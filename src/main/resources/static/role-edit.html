@@ -38,7 +38,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">创建时间</label>
         <div class="layui-input-block">
-            <input type="text" name="remarks" placeholder="请输入时间" autocomplete="off" class="layui-input" lay-verify="required">
+            <input type="text" name="time" placeholder="请输入时间" autocomplete="off" class="layui-input" lay-verify="required">
         </div>
     </div>
 
@@ -128,7 +128,7 @@
                 dataType:'json',
                 data:{
                     id:id,
-                    ids:data.field['name'],
+                    name:data.field['name'],
                     time:data.field['time']
                 },
                 success:function(data){
