@@ -112,7 +112,8 @@
             return false;
         });
 
-        $("#addSel").click(function () {
+        $("#addSel").click(function ()
+        {
             layer.confirm("确定要查看该开关柜历史数据吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
                 var checkStatus = table.checkStatus('tableId');
                 var rows = checkStatus.data.length;

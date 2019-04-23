@@ -36,9 +36,14 @@
     </div>
     <!--工具栏-->
     <okToolbar>
-
         <button class="layui-btn" id="addRole">
-            <i class="layui-icon">&#xe61f;</i>添加角色
+        <i class="layui-icon">&#xe61f;</i>添加角色
+        </button>
+        <button class="layui-btn" id="editRole">
+            <i class="layui-icon">&#xe642;</i>修改角色
+        </button>
+        <button class="layui-btn" id="delRole">
+            <i class="layui-icon layui-icon-delete"></i>删除角色
         </button>
         <span>共有数据：<i id="countNum"></i> 条</span>
     </okToolbar>
@@ -81,7 +86,7 @@
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'name', title: '角色名', width: 100},
                 {field: 'time', title: '创建时间', width: 200},
-                {title: '操作', width: 200, templet: '#operationTpl', align: 'center'}
+              //  {title: '操作', width: 200, templet: '#operationTpl', align: 'center'}
             ]],
             done: function (res, curr, count) {
                 $("#countNum").text(count);
@@ -89,35 +94,99 @@
         });
 
         form.on('submit(search)', function () {
-            layer.msg('正在查询，请稍后...');
-            return false;
-        });
-
-        table.on('tool(tableFilter)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if (layEvent === 'edit') {
-                layer.open({
-                    title: '编辑角色',
-                    type: 2,
-                    shade: false,
-                    maxmin: true,
-                    shade: 0.5,
-                    area: ['90%', '90%'],
-                    content: 'role-edit.html',
-                    zIndex: layer.zIndex,
-                    end: function () {
-                        $(".layui-laypage-btn")[0].click();
+            layer.msg('正在查询，请稍后...',{icon: 6, time: 1000});
+            if($("#id").val() !="" ){
+                table.reload("tableId", {
+                    where: {
+                        id: $("#id").val(),
                     }
                 });
-            } else if (layEvent === 'del')
-            {
-                layer.confirm("确定要删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
-                    layer.msg("操作成功！", {icon: 1, time: 1000});
-                });
+            }
+            else{
+                layer.msg('请输入数据再查询...',{icon: 7, time: 1000});
             }
 
+            return false;
         });
+        $("#editRole").click(function ()
+        {
+            layer.confirm("确定要修改用户信息吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
+                var checkStatus = table.checkStatus('tableId');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = checkStatus.data[0].id;
+                    console.log("选择的id-->" + idsStr);
+                    layer.open({
+                        title: '修改用户信息',
+                        type: 2,
+                        shade: false,
+                        maxmin: true,
+                        shade: 0.5,
+                        anim: 4,
+                        area: ['90%', '90%'],
+                        content: 'role-edit.html',
+                        zIndex: layer.zIndex,
+
+                        success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = window['layui-layer-iframe' + index];
+                            // 向子页面的全局函数child传参
+                            iframe.child(idsStr);
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                        // skin: 'layui-layer-molv',
+                        /* end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        } */
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+        $("#batchDel").click(function () {
+            layer.confirm("确定要删除班级吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+                var checkStatus = table.checkStatus('tableId');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = checkStatus.data[0].id;
+                    $.ajax({
+
+                        url: '/delUser',
+                        type: 'get',
+                        dataType: 'json',
+                        data: {
+                           id: idsStr,
+                        },
+                        success: function (data) {
+                            console.log(data.result);
+                            if (data.result == 'success') {
+                                layer.msg("删除成功！", {icon: 6, time: 1000, anim: 4}, function () {
+                                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                                });
+                                /*  $(".layui-laypage-btn")[0].click();
+
+                                 //layer.msg('登陆成功'); */
+                            }
+                            if (data.result == 'fail') {
+                                layer.msg("删除失败！", {icon: 6, time: 1000, anim: 4}, function () {
+                                    parent.layer.close(parent.layer.getFrameIndex(window.name));
+                                });
+                            }
+                        }
+                    });
+                    $(".layui-laypage-btn")[0].click();
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
         $("#addRole").click(function () {
             layer.open({
                 title: '添加角色',
@@ -138,9 +207,6 @@
     })
 </script>
 <!--模板-->
-<script type="text/html" id="operationTpl">
-    <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
-    <a href="javascript:;" title="删除" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
-</script>
+
 </body>
 </html>

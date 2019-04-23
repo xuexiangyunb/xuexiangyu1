@@ -114,9 +114,11 @@ public class UserController {
         Users u = new Users();
         u.setuId(id);
         u.setuName(name);
-        u.setuRole(1);
+        u.setuRole(2);
         u.setuTime(time);
         userService.updateUser(u);
+        map.put("result","success");
+        map.put("respDisc","修改成功");
         return map;
     }
 
