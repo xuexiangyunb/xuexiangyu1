@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>开关柜信息列表</title>
+    <title>用户列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
     <link rel="stylesheet" href="css/scroll-bar.css">
@@ -25,9 +25,8 @@
     <!--模糊搜索区域-->
     <div class="layui-row">
         <form class="layui-form layui-col-md12 ok-search">
-            <input class="layui-input" placeholder="开始日期" autocomplete="off" id="startTime">
-            <input class="layui-input" placeholder="截止日期" autocomplete="off" id="endTime">
-            <input class="layui-input" placeholder="请输入信息" autocomplete="off">
+            <!--  <input class="layui-input" placeholder="入住日期" autocomplete="off" id="startTime"> -->
+            <input class="layui-input" name="site" id="site" placeholder="请输入柜子编号" autocomplete="off">
             <button class="layui-btn" lay-submit="" lay-filter="search">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
@@ -35,16 +34,19 @@
     </div>
     <!--工具栏-->
     <okToolbar>
-    <button class="layui-btn layui-btn-danger" id="batchDel">
-        <i class="layui-icon layui-icon-delete"></i>批量删除
-    </button>
-    <button class="layui-btn" id="addUser">
-        <i class="layui-icon">&#xe61f;</i>添加数据
-    </button>
+        <!-- <button class="layui-btn layui-btn-normal" id="batchEnabled">
+            <i class="iconfont icon-shangsheng"></i>批量启用
+        </button>
+        <button class="layui-btn layui-btn-warm" id="batchDisabled">
+            <i class="iconfont icon-web-icon-"></i>批量停用
+        </button> -->
 
-    <span>共有数据：<i id="countNum"></i> 条</span>
+        <button class="layui-btn" id="addSel">
+            <i class="layui-icon">&#xe615;</i>查询历史数据
+        </button>
+
+        <span>共有数据：<i id="countNum"></i> 条</span>
     </okToolbar>
-
     <!--数据表格-->
     <table class="layui-hide" id="tableId" lay-filter="tableFilter"></table>
 </div>
@@ -52,19 +54,18 @@
 <script src="lib/layui/layui.js"></script>
 <script src="lib/nprogress/nprogress.js"></script>
 <script>
-    // 进度条加载提示
     NProgress.start();
     window.onload = function () {
         NProgress.done();
     }
-    // layui相关
     layui.use(['element', 'table', 'form', 'jquery', 'laydate','upload'], function () {
-        var element = layui.element;//获得模块
+        var element = layui.element;
         var table = layui.table;
         var form = layui.form;
         var $ = layui.jquery;
-        var laydate = layui.laydate;//使用模块
+        var laydate = layui.laydate;
         var upload = layui.upload;
+
         laydate.render({
             elem: '#startTime',
             type: "datetime"
@@ -74,18 +75,12 @@
             elem: '#endTime',
             type: "datetime"
         });
-        /*
-* add By 周海冰
-* 在这里修改内容，目前只需要修改url
-* 我已经修改好了   ，后台代码写好 联系我
-*
-* */
+
         table.render({
             elem: '#tableId',
             url: 'listCabinets',
-            limit: 100,
+            limit: 10,
             page: true,
-            even: true,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
@@ -95,7 +90,7 @@
                 {field: 'tem', title: '温度', width: 100,},
                 {field: 'hum', title: '湿度', width: 100,},
                 {field: 'time', title: '时间', width: 200},
-                {title: '操作', width: 200, align: 'center', templet: '#operationTpl',}
+
             ]],
             done: function (res, curr, count) {
                 $("#countNum").text(count);
@@ -103,68 +98,49 @@
         });
 
         form.on('submit(search)', function () {
-            layer.msg('正在查询，请稍后...');
+            layer.msg('正在查询，请稍后...',{icon: 6, time: 1000});
+            if($("#id").val() !="" ){
+                table.reload("tableId", {
+                    where: {
+                       id: $("#id").val(),
+
+                    }
+                });
+            }else{
+                layer.msg('请输入数据再查询...',{icon: 7, time: 1000});
+            }
             return false;
         });
 
-        table.on('tool(tableFilter)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if (layEvent === 'edit')
-            {
-                layer.open({
-                    title: '修改数据',
-                    type: 2,
-                    shade: false,
-                    maxmin: true,
-                    shade: 0.5,
-                    area: ['90%', '90%'],
-                    content: 'data-edit.html',
-                    zIndex: layer.zIndex,
-                    end: function () {
-                        $(".layui-laypage-btn")[0].click();
-                    }
-                });
-
-            }
-            if (layEvent === 'sel')
-            {
-                layer.open({
-                title: '查询历史数据',
-                type: 2,
-                shade: false,
-                maxmin: true,
-                shade: 0.5,
-                area: ['90%', '90%'],
-                content: 'data-sel.html'+"?tableId="+data.tableId,
-                zIndex: layer.zIndex,
-                end: function () {
-                    $(".layui-laypage-btn")[0].click();
-                }
-            });
-
-            }
-
-            else if (layEvent === 'del') {
-                layer.confirm("确定要删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
-                    layer.msg("操作成功！", {icon: 1, time: 1000});
-                });
-
-            }
-        });
-
-        $("#batchDel").click(function () {
-            layer.confirm("确定要批量删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+        $("#addSel").click(function () {
+            layer.confirm("确定要查看该开关柜历史数据吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
                 var checkStatus = table.checkStatus('tableId');
                 var rows = checkStatus.data.length;
                 if (rows > 0) {
-                    var idsStr = "";
-                    for (var i = 0; i < checkStatus.data.length; i++) {
-                        idsStr += checkStatus.data[i].id + ',';
-                    }
+                    var idsStr = checkStatus.data[0].id;
                     console.log("选择的id-->" + idsStr);
-                    layer.msg("操作成功！", {icon: 1, time: 1000}, function () {
-                        $(".layui-laypage-btn")[0].click();
+                    layer.open({
+                        title: '查询历史数据',
+                        type: 2,
+                        shade: false,
+                        maxmin: true,
+                        shade: 0.5,
+                        anim: 4,
+                        area: ['90%', '90%'],
+                        content: 'data-sel.html',
+                        zIndex: layer.zIndex,
+
+                       success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = window['layui-layer-iframe' + index];
+                            // 向子页面的全局函数child传参
+                            iframe.child(idsStr);
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                        // skin: 'layui-layer-molv',
+                        /* end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        } */
                     });
                 } else {
                     layer.msg('未选择有效数据', {
@@ -174,36 +150,15 @@
                 }
             });
         })
-        $("#addUser").click(function () {
-            layer.open({
-                title: '添加数据',
-                type: 2,
-                shade: false,
-                maxmin: true,
-                shade: 0.5,
-                anim: 4,
-                area: ['90%', '90%'],
-                content: 'data-add.html',
-                zIndex: layer.zIndex,
-                // skin: 'layui-layer-molv',
-                end: function () {
-                    $(".layui-laypage-btn")[0].click();
-                }
-            });
-        })
-
     })
-
-
-
-
 </script>
 <!--模板-->
 
+
+<script type="text/html" id="roleTpl">
+    {{ d.role == 0 ? '1' : '2    '}}
+</script>
 <script type="text/html" id="operationTpl">
-    <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
-    <a href="javascript:;" title="删除" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
-    <a href="javascript:;" title="查询历史数据" lay-event="sel"><i class="layui-icon">&#xe615;</i></a>
 
 </script>
 </body>

@@ -139,6 +139,7 @@
 
 
         }
+
         #h8 { margin-top:70px;
             margin-left: 50px;
             float:left;
@@ -159,7 +160,8 @@
         <div id="h5">
             <img src="images/tep.jpg" height="100" width="100"/></div>
         <div id="h6">
-            <font color="white" weight="110" size="6px" face="宋体">数据</font>
+
+
         </div>
         <div id="p5">
             <font color="black" weight="110" >温度</font>
@@ -170,7 +172,8 @@
             <img src="images/hum.jpg" height="100" width="100"/>
         </div>
         <div id="h8">
-            <font color="white" weight="110" size="6px" face="宋体">数据</font>
+
+
         </div >
 
         <div id="p6">
@@ -203,6 +206,28 @@
     </div>
 
 </div>
+<script  type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            url : "listdata",//后台请求的数据，
+            dataType : "json",//数据格式
+            type : "post",//请求方式
+            async : false,//是否异步请求
+            success : function(data) {  //如果请求成功，返回数据。
+                var html = "";
+                for(var i=0;i<data.length;i++){  //遍历data数组
+                    var ls = data[i];
+                    html +="<span>"+ls.hum+"</span>";
+                }
+                $("#h6").html(html); //在html页面id=H6的标签里显示html内容
+            },
+        })
+    })
+
+
+
+
+</script>
 </body>
 
 </html>

@@ -46,33 +46,55 @@
 </div>
 <!--js逻辑-->
 <script src="lib/layui/layui.js"></script>
-<script>
-    layui.config({
-        base: 'lib/layui/lay/modules/authtree/'
-    }).extend({
-        authtree: 'authtree',
-    });
+<script type="text/javascript" src="js/jquery.1.9.1.js"></script>
+<script type="text/javascript">
+    /*function showinfo(){
+        $.ajax({
+            url:'../class/showClass',
+            type:'post',
+            dataType:'json',
+            success:function(data){
+                $("#s_class").html("");
+                for (var i = 0; i < data.length; i++) {
+                    var option = $("<option value="+data[i].c_id +"></option>").text(data[i].c_name);
+                    $("#s_class").append(option);
+                    /* <option value="一班" name="class">一班</option>
+                }
 
-    layui.use(['element', 'form', 'jquery', 'laydate', 'authtree'], function () {
+            }
+        });
+
+    }
+    showinfo();*/
+</script>
+<script>
+    layui.use(['element', 'form', 'jquery', 'upload', 'laydate'], function () {
         var element = layui.element;
         var table = layui.table;
         var form = layui.form;
         var $ = layui.jquery;
         var laydate = layui.laydate;
-        var authtree = layui.authtree;
-
-        $.ajax({
-            url: 'data/tree.json',
-            dataType: 'json',
-            success: function (data) {
-                // 渲染时传入渲染目标ID，树形结构数据（具体结构看样例，checked表示默认选中），以及input表单的名字
-                authtree.render('#authTree', data.data.trees, {
-                    inputname: 'authids[]',
-                    layfilter: 'lay-check-auth',
-                    openall: false
-                });
-            }
-        })
+        upload = layui.upload;
+        /* //页面打开时异步加载数据
+          $(function () {
+              $.ajax({
+                     //提交数据的类型 POST GET
+                  type: "post",
+                  //提交的网址
+                  url: "../class/showAll",
+                  //提交的数据
+                  //返回数据的格式
+                  datatype: "json"//“xml”, “html”, “script”, “json”, “jsonp”, “text”.
+                  //成功返回之后调用的函数
+                  success: function (data) {
+                      $.each(data, function (index, item) {
+                      $("s_class").append(new Option(item.c_name, item.c_name));// 下拉菜单里添加元素
+                      });
+                      layui.form.render();
+                      }, error: function () {
+                      alert("查询班级失败！")
+              }
+          }); */
 
         laydate.render({
             elem: '#birthday',
@@ -83,32 +105,80 @@
             birthdayVerify: [/^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-))(\s(([01]\d{1})|(2[0123])):([0-5]\d):([0-5]\d))?$/, '日期格式不正确']
         });
 
-        // 监听自定义lay-filter选中状态，PS:layui现在不支持多次监听，所以扩展里边只能改变触发逻辑，然后引起了事件冒泡延迟的BUG，要是谁有好的建议可以反馈我
-        form.on('checkbox(lay-check-auth)', function (data) {
-            console.log(data.field);
-            // 获取所有节点
-            var all = authtree.getAll('#authTree');
-            console.log('all', all);
-            // 获取所有已选中节点
-            var checked = authtree.getChecked('#authTree');
-            console.log('checked', checked);
-            // 获取所有未选中节点
-            var notchecked = authtree.getNotChecked('#authTree');
-            console.log('notchecked', notchecked);
-            // 注意这里：需要等待事件冒泡完成，不然获取叶子节点不准确。
-            setTimeout(function () {
-                // 获取选中的叶子节点
-                var leaf = authtree.getLeaf('#authTree');
-                console.log(leaf);
-            }, 100);
-            return false;
+
+        /*普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,method:'post'
+            ,url: '../stu/upload'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                if(res.code==0){
+                    $('#demoText').html('<img class="layui-upload-img" style="width:80px;height:100px" src="'+res.src+'" id="demo1"> <p id="demoText"></p>');
+                    $('.layui-btn-img').css({"margin-left":"104px","width":"90px","margin-top":"6px"});
+                    $('.layui-btn-img').text("重新上传");
+                    return layer.msg('上传成功',{time:700});
+                }
+            }
         });
 
-        form.on('submit(add)', function (data) {
-            console.log(data.field);
-            layer.msg("添加成功！", {icon: 6, time: 1000, anim: 4}, function () {
-                parent.layer.close(parent.layer.getFrameIndex(window.name));
+
+
+        form.on('radio(s_sex)', function (data) {
+            $.ajax({
+                url:'/RoomSystem/room/selRoom',
+                type:'post',
+                dataType:'json',
+                data:{
+                    s_sex:data.value,
+                },
+                success:function(data){
+                    //console.log(data);
+                    $("#s_room").html("");
+                    for (var i = 0; i < data.length; i++) {
+                        var option = $("<option value="+data[i].r_id +"></option>").text(data[i].r_address);
+                        $("#s_room").append(option);
+                        /* <option value="一班" name="class">一班</option>
+
+                    }
+                    form.render('select');
+                }
             });
+        })*/
+
+
+        form.on('submit(add)', function (data) {
+            //layer.msg(data.field['s_room']);
+
+            $.ajax({
+                url:'/addUser',
+                type:'get',
+                dataType:'json',
+                data:{
+
+                    id:data.field['id'],
+                   name:data.field['name'],
+                   time:data.field['time']
+                },
+                success:function(data){
+                    //console.log(data.result);
+                    if(data.result =='success'){
+                        layer.msg("添加成功！", {icon: 6, time: 1000, anim: 4}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));
+                        });
+
+                        //layer.msg('登陆成功');
+                    }else{
+                        layer.msg('添加失败');
+                    }
+                }
+
+            });
+
             return false;
         });
     })
