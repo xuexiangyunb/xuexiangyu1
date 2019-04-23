@@ -87,15 +87,18 @@ public class UserController {
     //删除用户，从前端获取用户的id
     //前端测试地址为：http://localhost:8080/updateUser?id=11
     @RequestMapping("/delUser")
-    public String delUser(HttpServletRequest request) {
-        //获取用户id，通过HttpServletRequest实现
+    public @ResponseBody Map<String, Object> delUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
         //将获取的用户id封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuId(id);
         userService.delUser(u);
-        return "success.html";
+        map.put("result","success");
+        map.put("respDisc","删除成功");
+        return map;
     }
 
     //修改用户，从前端获取用户的id，姓名，密码

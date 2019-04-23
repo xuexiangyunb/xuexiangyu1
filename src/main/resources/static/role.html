@@ -147,14 +147,13 @@
                 }
             });
         })
-        $("#batchDel").click(function () {
-            layer.confirm("确定要删除班级吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+        $("#delRole").click(function () {
+            layer.confirm("确定要删除信息？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
                 var checkStatus = table.checkStatus('tableId');
                 var rows = checkStatus.data.length;
                 if (rows > 0) {
                     var idsStr = checkStatus.data[0].id;
                     $.ajax({
-
                         url: '/delUser',
                         type: 'get',
                         dataType: 'json',
