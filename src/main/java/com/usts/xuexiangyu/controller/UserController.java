@@ -64,9 +64,10 @@ public class UserController {
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
     @RequestMapping("/addUser")
-    public String addUser(HttpServletRequest request) {
+    Map<String, Object> addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
         //获取用户姓名和密码，通过HttpServletRequest实现
-        HttpSession session = request.getSession();
+      HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
         String time = request.getParameter("time");
@@ -77,7 +78,8 @@ public class UserController {
         u.setuRole(1);
         u.setuTime(time);
         userService.addUser(u);
-        return "success.html";
+        return map;
+
     }
 
     //删除用户，从前端获取用户的id

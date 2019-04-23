@@ -94,11 +94,11 @@ public class DataController {
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
-            String cId = request.getParameter("cId");
+            String id = request.getParameter("id");
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getcId() == Integer.parseInt(cId)) {
+                if (list.get(i).getcId() == Integer.parseInt(id)) {
                     DataVO dk = new DataVO();
                     Data d = list.get(i);
                     dk.setId(d.getcId());
