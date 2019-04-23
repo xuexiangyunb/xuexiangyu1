@@ -47,10 +47,10 @@
 
 
 <script>
-    var id = null;
+    var cId = null;
     function child(d) {
-        id=d,
-            alert(id)
+        cId=d
+
         //在这里你可以写你的jquery $(function(){ })   等等操作
     }
 
@@ -117,7 +117,7 @@
         table.render({
 
             elem: '#tableId',
-            url: 'listData?id='+id,
+            url: 'listData?cId='+cId,
 
             //limit: 10,
             page: false,
@@ -135,7 +135,7 @@
         });
 
         form.on('submit(edit)', function (data) {
-            console.log(id);
+            console.log(cId);
             layer.msg("谢谢查看！", {icon: 6, time: 1000, anim: 4}, function () {
                 parent.layer.close(parent.layer.getFrameIndex(window.name));
             });

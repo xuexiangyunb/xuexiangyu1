@@ -64,20 +64,22 @@ public class UserController {
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
     @RequestMapping("/addUser")
-    Map<String, Object> addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public @ResponseBody Map<String, Object> addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         //获取用户姓名和密码，通过HttpServletRequest实现
       HttpSession session = request.getSession();
         String name = request.getParameter("name");
-        String pwd = request.getParameter("pwd");
-        String time = request.getParameter("time");
+        String pwd = "admin";
+       String time = request.getParameter("time");
         //将获取的用户姓名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuName(name);
         u.setuPwd(pwd);
-        u.setuRole(1);
+        u.setuRole(2);
         u.setuTime(time);
         userService.addUser(u);
+        map.put("result","success");
+        map.put("respDisc","添加成功");
         return map;
 
     }
@@ -100,22 +102,22 @@ public class UserController {
     //前端测试地址为：http://localhost:8080/updateUser?id=11&name=zhouha&pwd=145236
     //注意：没有加密码为空的判断
     @RequestMapping("/updateUser")
-    public String updateUser(HttpServletRequest request) {
+    public
+    @ResponseBody Map<String, Object> updateUser(HttpServletRequest request) {
         //获取用户id，用户名和密码，通过HttpServletRequest实现
+        Map<String, Object> map = new HashMap<String, Object>();
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        String pwd = request.getParameter("pwd");
         String time = request.getParameter("time");
         //将获取的用户id，用户名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuId(id);
         u.setuName(name);
-        u.setuPwd(pwd);
         u.setuRole(1);
         u.setuTime(time);
         userService.updateUser(u);
-        return "success.html";
+        return map;
     }
 
     //显示所有用户
@@ -127,7 +129,7 @@ public class UserController {
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-        if (request.getCookies().length < 3) {
+        if (request.getCookies().length < 2) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;

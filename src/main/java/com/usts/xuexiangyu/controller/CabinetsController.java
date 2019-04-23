@@ -92,7 +92,7 @@ public class CabinetsController {
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println(request.getCookies().length);
         //如果没登录，提示没登录
-        if (request.getCookies().length < 3) {
+        if (request.getCookies().length < 2) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;

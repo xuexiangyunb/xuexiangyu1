@@ -94,7 +94,7 @@ public class DataController {
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
-            String id = request.getParameter("id");
+            String id = request.getParameter("cId");
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
