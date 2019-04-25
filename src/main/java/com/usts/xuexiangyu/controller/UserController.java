@@ -30,7 +30,7 @@ public class UserController {
      * 根据返回柜子数据，其中管理员返回所有柜子，普通用户返回所属的柜子
      * 测试地址为：http://localhost:8080/login
      * */
-    @RequestMapping("/login")
+    @RequestMapping("/login1")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Integer> map = new HashMap();
         String name = request.getParameter("name");
@@ -162,6 +162,8 @@ public class UserController {
         u.setuPwd(pwd);
         u.setuAge(this.userService.findOne(id).getuAge());
         u.setuSex(this.userService.findOne(id).getuSex());
+        u.setuTime(this.userService.findOne(id).getuTime());
+        userService.updateUser(u);
         map.put("result","success");
         map.put("respDisc","修改成功");
         return map;
@@ -202,7 +204,6 @@ public class UserController {
                 uv.setAge(u.getuAge());
                 uv.setSex(u.getuSex());
 
-                    System.out.println(uv+"aaaaaaaaaaaaaaaaaa");
 
                 usersVoList.add(uv);
             }
