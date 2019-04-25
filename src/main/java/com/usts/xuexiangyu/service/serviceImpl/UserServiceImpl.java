@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Users> listUsers() {
         List<Users> list = this.userRepository.findAll();
+
         return list;
     }
 
@@ -73,5 +74,18 @@ public class UserServiceImpl implements UserService {
             }
         }
         return map;
+    }
+
+    @Override
+    public Users findOne(int id) {
+        List<Users> list = this.userRepository.findAll();
+        Users u = null;
+        for(Users user: list){
+            if(user.getuId() == id){
+                u =  user;
+                break;
+            }
+        }
+return u;
     }
 }

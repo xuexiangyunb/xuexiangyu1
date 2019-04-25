@@ -20,9 +20,6 @@ public class UsersVO {
         this.role = role;
         this.age = age;
         this.sex = sex;
-
-
-
     }
 
     public int getId() {
@@ -57,6 +54,22 @@ public class UsersVO {
         this.pwd = pwd;
     }
 
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public int getRole() {
         return role;
     }
@@ -65,21 +78,16 @@ public class UsersVO {
         this.role = role;
     }
 
-    public String getAge() {
-        return age;
+    @Override
+    public String toString() {
+        return "UsersVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", time='" + time + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", age='" + age + '\'' +
+                ", sex='" + sex + '\'' +
+                ", role=" + role +
+                '}';
     }
-
-    public void setAge(String Age) {
-        this.age = age;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String Sex) {
-        this.sex = sex;
-    }
-
-
 }

@@ -130,6 +130,7 @@ public class UserController {
         u.setuName(name);
         u.setuRole(2);
         u.setuTime(time);
+        u.setuPwd(this.userService.findOne(id).getuPwd());
         u.setuAge(age);
         u.setuSex(sex);
         userService.updateUser(u);
@@ -171,6 +172,9 @@ public class UserController {
                 uv.setRole(u.getuRole());
                 uv.setAge(u.getuAge());
                 uv.setSex(u.getuSex());
+
+                    System.out.println(uv+"aaaaaaaaaaaaaaaaaa");
+
                 usersVoList.add(uv);
             }
             map.put("code", 0);

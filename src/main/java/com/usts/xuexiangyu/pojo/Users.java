@@ -51,14 +51,6 @@ public class Users {
         this.uName = uName;
     }
 
-    public String getuTime() {
-        return uTime;
-    }
-
-    public void setuTime(String uTime) {
-        this.uTime = uTime;
-    }
-
     public String getuPwd() {
         return uPwd;
     }
@@ -67,13 +59,20 @@ public class Users {
         this.uPwd = uPwd;
     }
 
-
     public int getuRole() {
         return uRole;
     }
 
     public void setuRole(int uRole) {
         this.uRole = uRole;
+    }
+
+    public String getuTime() {
+        return uTime;
+    }
+
+    public void setuTime(String uTime) {
+        this.uTime = uTime;
     }
 
     public String getuAge() {
@@ -95,13 +94,13 @@ public class Users {
     @Override
     public String toString() {
         return "Users{" +
-                "uId='" + uId + '\'' +
+                "uId=" + uId +
                 ", uName='" + uName + '\'' +
                 ", uPwd='" + uPwd + '\'' +
+                ", uRole=" + uRole +
                 ", uTime='" + uTime + '\'' +
                 ", uAge='" + uAge + '\'' +
                 ", uSex='" + uSex + '\'' +
-                ", uRole=" + uRole +
                 '}';
     }
 }

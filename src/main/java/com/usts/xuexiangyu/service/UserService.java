@@ -11,4 +11,5 @@ public interface UserService {
     public void updateUser(Users u);
     public List<Users> listUsers();
     public Map<String,Integer> login(Users u);
+    public Users findOne(int id);
 }
