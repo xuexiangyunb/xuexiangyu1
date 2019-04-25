@@ -36,6 +36,18 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="text" name="sex" placeholder="请输入性别" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年龄</label>
+        <div class="layui-input-block">
+            <input type="text" name="age" placeholder="请输入年龄" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">创建时间</label>
         <div class="layui-input-block">
             <input type="text" name="time" placeholder="请输入时间" autocomplete="off" class="layui-input" lay-verify="required">
@@ -129,7 +141,9 @@
                 data:{
                     id:id,
                     name:data.field['name'],
-                    time:data.field['time']
+                    time:data.field['time'],
+                    age:data.field['age'],
+                    sex:data.field['sex']
                 },
                 success:function(data){
                     //console.log(data.result);

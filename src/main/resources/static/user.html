@@ -24,10 +24,21 @@
         </a>
     </div>
     <!--模糊搜索区域-->
-
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 ok-search">
+            <input class="layui-input" placeholder="开始日期" autocomplete="off" id="startTime">
+            <input class="layui-input" placeholder="截止日期" autocomplete="off" id="endTime">
+            <input class="layui-input" placeholder="请输入角色名" autocomplete="off">
+            <button class="layui-btn" lay-submit="" lay-filter="search">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
     <!--工具栏-->
     <okToolbar>
-
+        <button class="layui-btn" id="edituser">
+            <i class="layui-icon">&#xe642;</i>修改密码
+        </button>
         <span>共有数据：<i id="countNum"></i> 条</span>
     </okToolbar>
     <!--数据表格-->
@@ -58,38 +69,69 @@
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'name', title: '用户名', width: 100},
                 {field: 'pwd', title: '密码', width: 100},
+                {field: 'sex', title: '性别', width: 100},
+                {field: 'age', title: '年龄', width: 100},
                 {field: 'role', title: '角色身份（1或2）', width: 150, templet: '#roleTpl'},
-                {title: '操作', width: 100, templet: '#operationTpl', align: 'center'}
+                // {title: '操作', width: 100, templet: '#operationTpl', align: 'center'}
             ]],
             done: function (res, curr, count) {
                 $("#countNum").text(count);
             }
         });
+        form.on('submit(search)', function () {
+            layer.msg('正在查询，请稍后...', {icon: 6, time: 1000});
+            if ($("#id").val() != "") {
+                table.reload("tableId", {
+                    where: {
+                        id: $("#id").val(),
 
-
-        table.on('tool(tableFilter)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-            if (layEvent === 'edit') {
-                layer.open({
-                    title: '修改密码',
-                    type: 2,
-                    shade: false,
-                    maxmin: true,
-                    shade: 0.5,
-                    area: ['90%', '90%'],
-                    content: 'user-edit.html',
-                    zIndex: layer.zIndex,
-                    end: function () {
-                        $(".layui-laypage-btn")[0].click();
                     }
                 });
-            } else if (layEvent === 'del') {
-                layer.confirm("确定要删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
-                    layer.msg("操作成功！", {icon: 1, time: 1000});
-                });
+            } else {
+                layer.msg('请输入数据再查询...', {icon: 7, time: 1000});
             }
+            return false;
         });
+
+
+        $("#edituser").click(function () {
+            layer.confirm("确定要修改用户密码吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
+                var checkStatus = table.checkStatus('tableId');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = checkStatus.data[0].id;
+                    console.log("选择的id-->" + idsStr);
+                    layer.open({
+                        title: '修改密码',
+                        type: 2,
+                        shade: false,
+                        maxmin: true,
+                        shade: 0.5,
+                        anim: 4,
+                        area: ['90%', '90%'],
+                        content: 'user-edit.html',
+                        zIndex: layer.zIndex,
+
+                        success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = window['layui-layer-iframe' + index];
+                            // 向子页面的全局函数child传参
+                            iframe.child(idsStr);
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                        // skin: 'layui-layer-molv',
+                        /* end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        } */
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
     })
 
 
@@ -98,9 +140,6 @@
 
 <script type="text/html" id="roleTpl">
     {{ d.role == 1 ? '1' : '2 '}}
-</script>
-<script type="text/html" id="operationTpl">
-    <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
 
 </script>
 </body>

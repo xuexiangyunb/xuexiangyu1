@@ -85,6 +85,8 @@
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'name', title: '角色名', width: 100},
+                {field: 'sex', title: '性别', width: 100},
+                {field: 'age', title: '年龄', width: 100},
                 {field: 'time', title: '创建时间', width: 200},
               //  {title: '操作', width: 200, templet: '#operationTpl', align: 'center'}
             ]],
@@ -99,13 +101,12 @@
                 table.reload("tableId", {
                     where: {
                         id: $("#id").val(),
+
                     }
                 });
-            }
-            else{
+            }else{
                 layer.msg('请输入数据再查询...',{icon: 7, time: 1000});
             }
-
             return false;
         });
         $("#editRole").click(function ()

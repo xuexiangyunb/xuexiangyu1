@@ -17,16 +17,22 @@ public class Users {
     private int uRole;
     @Column(name = "u_Time")
     private String uTime;
+    @Column(name = "u_Age")
+    private String uAge;
+    @Column(name = "u_Sex")
+    private String uSex;
 
     public Users() {
     }
 
-    public Users(int uId, String uName, String uPwd, int uRole, String uTime) {
+    public Users(int uId, String uName, String uPwd, int uRole, String uTime,String uAge,String uSex) {
         this.uId = uId;
         this.uName = uName;
         this.uPwd = uPwd;
         this.uRole = uRole;
         this.uTime = uTime;
+        this.uAge = uAge;
+        this.uSex = uSex;
     }
 
     public int getuId() {
@@ -70,6 +76,22 @@ public class Users {
         this.uRole = uRole;
     }
 
+    public String getuAge() {
+        return uAge;
+    }
+
+    public void setuAge(String uAge) {
+        this.uAge = uAge;
+    }
+
+    public String getuSex() {
+        return uSex;
+    }
+
+    public void setuSex(String uSex) {
+        this.uSex = uSex;
+    }
+
     @Override
     public String toString() {
         return "Users{" +
@@ -77,6 +99,8 @@ public class Users {
                 ", uName='" + uName + '\'' +
                 ", uPwd='" + uPwd + '\'' +
                 ", uTime='" + uTime + '\'' +
+                ", uAge='" + uAge + '\'' +
+                ", uSex='" + uSex + '\'' +
                 ", uRole=" + uRole +
                 '}';
     }

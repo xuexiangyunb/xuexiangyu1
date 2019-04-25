@@ -5,17 +5,22 @@ public class UsersVO {
     String name;
     String time;
     String pwd;
+    String age;
+    String sex;
     int role;
 
     public UsersVO() {
     }
 
-    public UsersVO(int id,  String name, String time,String pwd,int role) {
+    public UsersVO(int id,  String name, String time,String pwd,int role ,String age,String sex) {
         this.id = id;
         this.name = name;
         this.time = time;
         this.pwd = pwd;
         this.role = role;
+        this.age = age;
+        this.sex = sex;
+
 
 
     }
@@ -59,5 +64,22 @@ public class UsersVO {
     public void setRole(int role) {
         this.role = role;
     }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String Age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String Sex) {
+        this.sex = sex;
+    }
+
 
 }

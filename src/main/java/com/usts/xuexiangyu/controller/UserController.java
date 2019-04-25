@@ -122,12 +122,16 @@ public class UserController {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String time = request.getParameter("time");
+        String age = request.getParameter("age");
+        String sex = request.getParameter("sex");
         //将获取的用户id，用户名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuId(id);
         u.setuName(name);
         u.setuRole(2);
         u.setuTime(time);
+        u.setuAge(age);
+        u.setuSex(sex);
         userService.updateUser(u);
         map.put("result","success");
         map.put("respDisc","修改成功");
@@ -165,6 +169,8 @@ public class UserController {
                 uv.setTime(u.getuTime());
                 uv.setPwd(u.getuPwd());
                 uv.setRole(u.getuRole());
+                uv.setAge(u.getuAge());
+                uv.setSex(u.getuSex());
                 usersVoList.add(uv);
             }
             map.put("code", 0);
@@ -214,6 +220,8 @@ public class UserController {
                 uk.setName(u.getuName());
                 uk.setPwd(u.getuPwd());
                 uk.setRole(u.getuRole());
+                uk.setAge(u.getuAge());
+                uk.setSex(u.getuSex());
                 usersmVoList.add(uk);
             }
             map.put("code", 0);
