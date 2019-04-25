@@ -79,13 +79,17 @@ public class UserController {
       HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String pwd = "admin";
-       String time = request.getParameter("time");
+        String time = request.getParameter("time");
+        String age = request.getParameter("age");
+        String sex = request.getParameter("sex");
         //将获取的用户姓名和密码封装在user对象里，然后传入service层
         Users u = new Users();
         u.setuName(name);
         u.setuPwd(pwd);
         u.setuRole(2);
         u.setuTime(time);
+        u.setuSex(sex);
+        u.setuAge(age);
         userService.addUser(u);
         map.put("result","success");
         map.put("respDisc","添加成功");
@@ -123,6 +127,7 @@ public class UserController {
         String name = request.getParameter("name");
         String time = request.getParameter("time");
         String age = request.getParameter("age");
+        String pwd = request.getParameter("pwd");
         String sex = request.getParameter("sex");
         //将获取的用户id，用户名和密码封装在user对象里，然后传入service层
         Users u = new Users();
@@ -133,11 +138,35 @@ public class UserController {
         u.setuPwd(this.userService.findOne(id).getuPwd());
         u.setuAge(age);
         u.setuSex(sex);
+        u.setuPwd(pwd);
         userService.updateUser(u);
         map.put("result","success");
         map.put("respDisc","修改成功");
         return map;
     }
+    @RequestMapping("/updatePwd")
+    public
+    @ResponseBody Map<String, Object> updatePwd(HttpServletRequest request) {
+        //获取用户id，用户名和密码，通过HttpServletRequest实现
+        Map<String, Object> map = new HashMap<String, Object>();
+        HttpSession session = request.getSession();
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String pwd = request.getParameter("pwd");
+        int role = Integer.parseInt(request.getParameter("role"));
+        //将获取的用户id，用户名和密码封装在user对象里，然后传入service层
+        Users u = new Users();
+        u.setuId(id);//前端传过来
+        u.setuName(name);
+        u.setuRole(role);
+        u.setuPwd(pwd);
+        u.setuAge(this.userService.findOne(id).getuAge());
+        u.setuSex(this.userService.findOne(id).getuSex());
+        map.put("result","success");
+        map.put("respDisc","修改成功");
+        return map;
+    }
+
 
     //显示所有用户
     //前端测试地址为：http://localhost:8080/listUser
