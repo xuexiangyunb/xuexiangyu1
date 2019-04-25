@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>开关柜智能管理系统</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <link rel="stylesheet" href="css/okadmin.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_693759_ciewkz7d5vo.css">
+    <link rel="stylesheet" href="lib/nprogress/nprogress.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div class="layui-header">
+        <div class="layui-logo">开关柜智能管理系统</div>
+        <div class="menu-switch">
+            <i class="iconfont icon-caidan"></i>
+        </div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item layui-this"><a href=""><i class="iconfont icon-jiankongkongzhiguanlijianguan"></i> 监测管理<span class="layui-badge-dot"></span></a></li>
+
+
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="images/head.jpg" class="layui-nav-img">
+                    管理员
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:void(0)" id="lock">锁定账户</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:void(0)" id="logout">退出</a></li>
+        </ul>
+    </div>
+    <!--左侧导航区域-->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">
+                        <i class="layui-icon">&#xe62a;</i> 首页
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" path="master.html" tab-id="1-1"><i class="iconfont icon-dianliyonghuzongshu"></i> 实时监测信息</a></dd>
+
+
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe615;</i> 开关柜查询
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" path="data.html" tab-id="2-1"><i class="iconfont icon-wenzhang2"></i> 开关柜信息查询</a></dd>
+
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe62c;</i> 单点分析
+                    </a>
+                    <dl class="layui-nav-child">
+
+                        <dd><a href="javascript:;" path="map2.html" tab-id="2-2">折线图</a></dd>
+
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe66b;</i> 报表导出
+                    </a>
+                    <dl class="layui-nav-child">
+
+                        <dd><a href="javascript:;" path="font-iconfont.html" tab-id="3-2">阿里巴巴图标库</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe6b2;</i> 密码修改
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" path="user.html" tab-id="6-1"><i class="layui-icon">&#xe770;</i> 用户密码修改</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="layui-icon">&#xe716;</i> 系统管理
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" path="xxxx.html" tab-id="4-1"><i class="iconfont icon-settings"></i> 系统设置</a></dd>
+
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 内容主体区域 -->
+    <div class="content-body">
+        <div class="layui-tab layui-tab-brief" lay-filter="ok-tab" lay-allowClose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this"><i class="layui-icon">&#xe68e;</i> 控制台</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe src='welcome.html' frameborder="0" scrolling="yes" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="yy"></div>
+<!--js逻辑-->
+<script src="lib/layui/layui.js"></script>
+<script src="lib/nprogress/nprogress.js"></script>
+<script src="js/okadmin.js"></script>
+</body>
+</html>

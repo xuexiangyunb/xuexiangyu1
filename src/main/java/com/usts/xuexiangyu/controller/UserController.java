@@ -54,7 +54,7 @@ public class UserController {
             ckIsLogin.setMaxAge(-1);
             response.addCookie(ckName);
             response.addCookie(ckIsLogin);
-            response.sendRedirect("1.html");
+            response.sendRedirect("index2.html");
         } else {
             //管理员，跳转到admin.html
             Cookie ckName = new Cookie("name", name);
