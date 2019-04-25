@@ -26,7 +26,7 @@
     <div class="layui-row">
         <form class="layui-form layui-col-md12 ok-search">
             <!--  <input class="layui-input" placeholder="入住日期" autocomplete="off" id="startTime"> -->
-            <input class="layui-input" name="site" id="site" placeholder="请输入柜子编号" autocomplete="off">
+            <input class="layui-input" name="id" id="id" placeholder="请输入柜子ID" autocomplete="off">
             <button class="layui-btn" lay-submit="" lay-filter="search">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
@@ -43,6 +43,10 @@
 
         <button class="layui-btn" id="addSel">
             <i class="layui-icon">&#xe615;</i>查询历史数据
+        </button>
+
+        <button class="layui-btn layui-btn-warm" id="see">
+            <i class="layui-icon">&#xe64c;</i>查看折线分析图
         </button>
 
         <span>共有数据：<i id="countNum"></i> 条</span>
@@ -132,6 +136,45 @@
                         zIndex: layer.zIndex,
 
                        success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = window['layui-layer-iframe' + index];
+                            // 向子页面的全局函数child传参
+                            iframe.child(idsStr);
+                            $(".layui-laypage-btn")[0].click();
+                        }
+                        // skin: 'layui-layer-molv',
+                        /* end: function () {
+                            $(".layui-laypage-btn")[0].click();
+                        } */
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+        $("#see").click(function ()
+        {
+            layer.confirm("确定要查看该开关柜数据折线图吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
+                var checkStatus = table.checkStatus('tableId');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = checkStatus.data[0].id;
+                    console.log("选择的id-->" + idsStr);
+                    layer.open({
+                        title: '查询数据折线图',
+                        type: 2,
+                        shade: false,
+                        maxmin: true,
+                        shade: 0.5,
+                        anim: 4,
+                        area: ['90%', '90%'],
+                        content: 'map2.html',
+                        zIndex: layer.zIndex,
+
+                        success: function (layero, index) {
                             // 获取子页面的iframe
                             var iframe = window['layui-layer-iframe' + index];
                             // 向子页面的全局函数child传参
