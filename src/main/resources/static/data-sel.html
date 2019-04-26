@@ -43,7 +43,7 @@
 <!--js逻辑-->
 <script src="lib/layui/layui.js"></script>
 <script src="lib/nprogress/nprogress.js"></script>
-    <!-- form表单 -->
+<!-- form表单 -->
 
 </div>
 <!-- js逻辑 -->
@@ -55,7 +55,7 @@
         cId=d
 
         //在这里你可以写你的jquery $(function(){ })   等等操作
-    }
+
 
     layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function () {
         var element = layui.element;
@@ -128,9 +128,9 @@
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
                 {field: 'tem', title: '温度', width: 100,},
-                {field: 'hum', title: '湿度', width: 100,},
+                {field: 'hum', title: '湿度(%)', width: 100,},
                 {field: 'time', title: '时间', width: 200},
-               // {title: '操作', width: 200, align: 'center', templet: '#operationTpl',}
+                // {title: '操作', width: 200, align: 'center', templet: '#operationTpl',}
             ]],
             /* done: function (res, curr, count) {
                 $("#countNum").text(count);
@@ -145,6 +145,7 @@
             return false;
         });
     })
+    }
 </script>
 </body>
 </html>

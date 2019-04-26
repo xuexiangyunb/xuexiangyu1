@@ -103,6 +103,7 @@ public class DataController {
             return map;
         } else {
             String id = request.getParameter("cId");
+System.out.println(id);
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -116,7 +117,7 @@ public class DataController {
                     dataVoList.add(dk);
                 }
             }
-            map.put("code", 0);
+           map.put("code", 0);
             map.put("msg", "WWW");
             map.put("count", dataVoList.size());
             map.put("data", dataVoList);
