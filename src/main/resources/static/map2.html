@@ -6,119 +6,124 @@
 </head>
 <body>
 <div id="main" style="width: 100%;height:400px;margin-top: 50px;"></div>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 <script src="lib/echarts/echarts.common.min.js"></script>
 <script type="text/javascript">
     var cid = null;
     function child(d) {
-        cid=d,
-            alert(cid)}
-    // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+        cid=d;
+        alert(cid);
+        myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+        var time=[];    //类别数组（实际用来盛放X轴坐标值）
+        var tem=[];
+        var hum=[]; //销量数组（实际用来盛放Y坐标值）
+        $.ajax({
+            type : "get",
+            async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url : '/listHumTem?cId='+cid,  //请求发送到TestServlet处
+            data : {},
+            dataType : "json",        //返回数据形式为json
+            success : function(result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                console.log(result.timeData[0])
+                console.log(result.temData[0])
+                console.log(result.humData[0])
 
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '数据折线图'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data:['温度','湿度']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
+                if (result) {
+                    for(var i=0;i<result.timeData.length;i++){
+                        time.push(result.timeData[i]);    //挨个取出时间并填入时间数组
+                    }
+                    for(var i=0;i<result.temData.length;i++){
+                        tem.push(result.temData[i]);    //挨个取出温度并填入温度数组
+                    }
+                    for(var i=0;i<result.humData.length;i++){
+                        hum.push(result.humData[i]);    //挨个取出湿度并填入湿度数组
+                    }
+                    myChart.hideLoading();    //隐藏加载动画
+                    myChart.setOption({        //加载数据图表
+                        xAxis: {
+                            data: time
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: '温度',
+                            data:tem
+                        },
+                            {
+                                // 根据名字对应到相应的系列
+                                name: '湿度',
+                                data: hum
+                            }]
+                    });
                 }
             },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00']
-            },
-            yAxis : [{
+            error : function(errorMsg) {
+                //请求失败时执行该函数
+                alert("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        })}
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '数据折线图'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['温度','湿度']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00']
+        },
+        yAxis : [{
+            type: 'value',
+            min: 0,
+            max: 100,
+
+        },
+            {
                 type: 'value',
                 min: 0,
                 max: 100,
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }],
 
+        series: [
+            {
+                name:'温度',
+                type:'line',
+                yAxisIndex: 0,
+                data:[]
             },
-                {
-                    type: 'value',
-                    min: 0,
-                    max: 100,
-                    axisLabel: {
-                        formatter: '{value} %'
-                    }
-                }],
+            {
+                name:'湿度',
+                type:'line',
+                yAxisIndex: 1,
+                data:[]
+            },
+        ]
+    };
 
-            series: [
-                {
-                    name:'温度',
-                    type:'line',
-                    yAxisIndex: 0,
-                    data:[]
-                },
-                {
-                    name:'湿度',
-                    type:'line',
-                    yAxisIndex: 1,
-                    data:[]
-                },
-            ]
-        };
-    myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
-    var time=[];    //类别数组（实际用来盛放X轴坐标值）
-    var tem=[];
-    var hum=[]; //销量数组（实际用来盛放Y坐标值）
-    $.ajax({
-        type : "get",
-        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        url : "/listData",    //请求发送到TestServlet处
-        data : {},
-        dataType : "json",        //返回数据形式为json
-        success : function(result) {
-            //请求成功时执行该函数内容，result即为服务器返回的json对象
-            if (result) {
-                for(var i=0;i<result.length;i++){
-                    time.push(result[i].scabbr);    //挨个取出类别并填入类别数组
-                }
-                for(var i=0;i<result.length;i++){
-                  tem.push(result[i].je1);    //挨个取出销量并填入销量数组
-                }
-                for(var i=0;i<result.length;i++){
-                    hum.push(result[i].je1);    //挨个取出销量并填入销量数组
-                }
-                myChart.hideLoading();    //隐藏加载动画
-                myChart.setOption({        //加载数据图表
-                    xAxis: {
-                        data: time
-                    },
-                    series: [{
-                        // 根据名字对应到相应的系列
-                        name: '温度',
-                        data:tem
-                    },
-                        {
-                            // 根据名字对应到相应的系列
-                            name: '湿度',
-                            data: hum
-                        }]
-                });
-            }
-        },
-        error : function(errorMsg) {
-            //请求失败时执行该函数
-            alert("图表请求数据失败!");
-            myChart.hideLoading();
-        }
-    })
 </script>
 </body>
 </html>
-

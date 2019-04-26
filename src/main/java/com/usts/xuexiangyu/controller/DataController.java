@@ -125,6 +125,41 @@ public class DataController {
             return map;
         }
     }
+    @RequestMapping("/listHumTem")
+    public @ResponseBody
+    Map<String, Object> listHumTem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        //如果没登录，提示没登录
+        Cookie[] cks = request.getCookies();
+        for(Cookie ck : cks){
+            if(ck.getValue().equals("1")){
+                this.isLogin = true;
+                break;
+            }
+        }
+        if (!this.isLogin) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+            String id = request.getParameter("cId");
+            List<Data> list = dataService.listData();
+            List<String> humList = new ArrayList<>();//湿度容器
+            List<String> temList = new ArrayList<>();//温度容器
+            List<String> timeList = new ArrayList<>();//时间容器
+          for (int i = 0; i < list.size(); i++) {
+              if(list.get(i).getcId() == Integer.parseInt(id)){
+                  humList.add(list.get(i).getdHum());
+                  temList.add(list.get(i).getdTem());
+                  timeList.add(list.get(i).getdTime());
+              }
+            }
+            map.put("humData", humList);
+          map.put("temData",temList);
+          map.put("timeData",timeList);
+            }
+            return map;
+        }
 
 }
 
