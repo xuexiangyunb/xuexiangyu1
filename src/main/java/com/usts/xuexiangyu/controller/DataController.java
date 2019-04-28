@@ -188,26 +188,50 @@ public class DataController {
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
-            String ckName = request.getParameter("uName");
+            String ckName = "";
+            Cookie[] c = request.getCookies();
+            for(Cookie ck : c){
+                if(ck.getName().equals("name")){
+                    ckName = ck.getValue();
+                }
+                }
+
+
+
+
+
             List<Data> list = dataService.listData();
             List<Users> usersList = userService.listUsers();
             List<Cabinets> cabinetslist = cabinetsService.listCabinets();
             List<String> humList = new ArrayList<>();//湿度容器
             List<String> temList = new ArrayList<>();//温度容器
-            Data data = this.compareTime(list);
-
+            int uId=-1;
+            int cId=-1;
+            String hum="";
+            String tem="";
             for (int t = 0; t < usersList.size(); t++) {
-                if(usersList.get(t).getuName() == ckName){
-                    Users c = usersList.get(t);
-                    c.setuId(usersList.get(t).getuId());
-                     //不会根据uid到柜子再到数据
-
-                    humList.add(list.get(t).getdHum());
-                    temList.add(list.get(t).getdTem());
+                if(usersList.get(t).getuName().equals(ckName)){
+                   uId = usersList.get(t).getuId();
+                   break;
                 }
             }
-            map.put("humData", humList);
-            map.put("temData",temList);
+            for(int k=0;k<cabinetslist.size();k++){
+                if (cabinetslist.get(k).getuId()==uId){
+                  cId=cabinetslist.get(k).getcId();
+                  break;
+                }
+
+            }
+            List<Data> dataList = new ArrayList<>();
+            for (int m=0;m<list.size();m++){
+                if (list.get(m).getcId()== cId){
+                    dataList.add(list.get(m));
+                }
+            }
+            System.out.println(dataList.size());
+            Data data = compareTime(dataList);
+            map.put("humData", data.getdHum());
+            map.put("temData",data.getdTem());
         }
         return map;
     }
