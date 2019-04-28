@@ -1,6 +1,8 @@
 package com.usts.xuexiangyu.controller;
 
 import com.usts.xuexiangyu.pojo.*;
+import com.usts.xuexiangyu.service.CabinetsService;
+import com.usts.xuexiangyu.service.UserService;
 import javafx.scene.chart.PieChart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +26,15 @@ public class DataController {
     boolean isLogin = false;
     @Autowired
     DataService dataService;
+    @Autowired
+    CabinetsService cabinetsService;
+    @Autowired
+    UserService userService;
     //增加用户，从前端获取用户姓名和密码
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
     @RequestMapping("/addData")
-    public String addUser(HttpServletRequest request){
+    public String addUser(HttpServletRequest request) {
         //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int cid = Integer.parseInt(request.getParameter("cid"));
@@ -48,7 +54,7 @@ public class DataController {
     //删除用户，从前端获取用户的id
     //前端测试地址为：http://localhost:8080/delUser?id=11
     @RequestMapping("/delData")
-    public String delUser(HttpServletRequest request){
+    public String delUser(HttpServletRequest request) {
         //获取用户id，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
@@ -63,7 +69,7 @@ public class DataController {
     //前端测试地址为：http://localhost:8080/updateUser?id=11&name=zhouha&pwd=145236
     //注意：没有加密码为空的判断
     @RequestMapping("/updateData")
-    public String updateUser(HttpServletRequest request){
+    public String updateUser(HttpServletRequest request) {
         //获取用户id，用户名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
@@ -91,19 +97,19 @@ public class DataController {
         Map<String, Object> map = new HashMap<String, Object>();
         //如果没登录，提示没登录
         Cookie[] cks = request.getCookies();
-        for(Cookie ck : cks){
-            if(ck.getValue().equals("1")){
+        for (Cookie ck : cks) {
+            if (ck.getValue().equals("1")) {
                 this.isLogin = true;
                 break;
             }
         }
-       if (!this.isLogin) {
+        if (!this.isLogin) {
             map.put("respCode", 1);
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
             String id = request.getParameter("cId");
-System.out.println(id);
+            System.out.println(id);
             List<Data> list = dataService.listData();
             List<DataVO> dataVoList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -117,7 +123,7 @@ System.out.println(id);
                     dataVoList.add(dk);
                 }
             }
-           map.put("code", 0);
+            map.put("code", 0);
             map.put("msg", "WWW");
             map.put("count", dataVoList.size());
             map.put("data", dataVoList);
@@ -126,14 +132,15 @@ System.out.println(id);
             return map;
         }
     }
+
     @RequestMapping("/listHumTem")
     public @ResponseBody
     Map<String, Object> listHumTem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         //如果没登录，提示没登录
         Cookie[] cks = request.getCookies();
-        for(Cookie ck : cks){
-            if(ck.getValue().equals("1")){
+        for (Cookie ck : cks) {
+            if (ck.getValue().equals("1")) {
                 this.isLogin = true;
                 break;
             }
@@ -148,19 +155,125 @@ System.out.println(id);
             List<String> humList = new ArrayList<>();//湿度容器
             List<String> temList = new ArrayList<>();//温度容器
             List<String> timeList = new ArrayList<>();//时间容器
-          for (int i = 0; i < list.size(); i++) {
-              if(list.get(i).getcId() == Integer.parseInt(id)){
-                  humList.add(list.get(i).getdHum());
-                  temList.add(list.get(i).getdTem());
-                  timeList.add(list.get(i).getdTime());
-              }
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getcId() == Integer.parseInt(id)) {
+                    humList.add(list.get(i).getdHum());
+                    temList.add(list.get(i).getdTem());
+                    timeList.add(list.get(i).getdTime());
+                }
             }
             map.put("humData", humList);
-          map.put("temData",temList);
-          map.put("timeData",timeList);
-            }
-            return map;
+            map.put("temData", temList);
+            map.put("timeData", timeList);
         }
+        return map;
+    }
+
+
+
+    @RequestMapping("/listHT")
+    public @ResponseBody
+    Map<String, Object> listHT(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        //如果没登录，提示没登录
+        Cookie[] cks = request.getCookies();
+        for(Cookie ck : cks){
+            if(ck.getValue().equals("1")){
+                this.isLogin = true;
+                break;
+            }
+        }
+        if (!this.isLogin) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+            String ckName = request.getParameter("uName");
+            List<Data> list = dataService.listData();
+            List<Users> usersList = userService.listUsers();
+            List<Cabinets> cabinetslist = cabinetsService.listCabinets();
+            List<String> humList = new ArrayList<>();//湿度容器
+            List<String> temList = new ArrayList<>();//温度容器
+            Data data = this.compareTime(list);
+
+            for (int t = 0; t < usersList.size(); t++) {
+                if(usersList.get(t).getuName() == ckName){
+                    Users c = usersList.get(t);
+                    c.setuId(usersList.get(t).getuId());
+                     //不会根据uid到柜子再到数据
+
+                    humList.add(list.get(t).getdHum());
+                    temList.add(list.get(t).getdTem());
+                }
+            }
+            map.put("humData", humList);
+            map.put("temData",temList);
+        }
+        return map;
+    }
+
+    private Data compareTime(List<Data> dataList)
+    {
+        int year1;
+        int year2;
+        int month1;
+        int month2;
+        int day1;
+        int day2;
+        int hour1;
+        int hour2;
+        int minute1;
+        int minute2;
+
+        Data d = dataList.get(0);
+        for (int i = 0; i < dataList.size() - 1; i++) {
+            Data d1 = dataList.get(i);
+            Data d2 = dataList.get(i + 1);
+            year1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[0]);
+            year2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[0]);
+            month1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[1]);
+            month2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[1]);
+            day1 = Integer.parseInt(d1.getdTime().split(" ")[0].split("-")[2]);
+            day2 = Integer.parseInt(d2.getdTime().split(" ")[0].split("-")[2]);
+            hour1 = Integer.parseInt(d1.getdTime().split(" ")[1].split(":")[0]);
+            hour2 = Integer.parseInt(d2.getdTime().split(" ")[1].split(":")[0]);
+            minute1 = Integer.parseInt(d1.getdTime().split(" ")[1].split(":")[1]);
+            minute2 = Integer.parseInt(d2.getdTime().split(" ")[1].split(":")[1]);
+
+            if (year1 == year2) {
+                if (month1 == month2) {
+                    if (day1 == day2) {
+                        if (hour1 == hour2) {
+                            if (minute1 > minute2) {
+                                d = dataList.get(i);
+                            } else {
+                                d = dataList.get(i + 1);
+                            }
+
+                        } else if (hour1 > hour2) {
+                            d = dataList.get(i);
+                        } else {
+                            d = dataList.get(i + 1);
+                        }
+                    } else if (day1 > day2) {
+                        d = dataList.get(i);
+                    } else {
+                        d = dataList.get(i + 1);
+                    }
+                } else if (month1 > month2) {
+                    d = dataList.get(i);
+                } else {
+                    d = dataList.get(i + 1);
+                }
+            } else if (year1 > year2) {
+                d = dataList.get(i);
+            } else {
+                d = dataList.get(i + 1);
+            }
+        }
+
+        return d;
+    }
 
 }
 

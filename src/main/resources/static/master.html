@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
     <style>
         #p1{width:350px;
             height:220px;
@@ -152,6 +153,9 @@
 
 
     </style>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/master.js"></script>
 </head>
 <body bgcolor="white" >
 
@@ -206,28 +210,8 @@
     </div>
 
 </div>
-<script  type="text/javascript">
-    $(document).ready(function() {
-        $.ajax({
-            url : "listdata",//后台请求的数据，
-            dataType : "json",//数据格式
-            type : "post",//请求方式
-            async : false,//是否异步请求
-            success : function(data) {  //如果请求成功，返回数据。
-                var html = "";
-                for(var i=0;i<data.length;i++){  //遍历data数组
-                    var ls = data[i];
-                    html +="<span>"+ls.hum+"</span>";
-                }
-                $("#h6").html(html); //在html页面id=H6的标签里显示html内容
-            },
-        })
-    })
 
 
-
-
-</script>
 </body>
 
 </html>

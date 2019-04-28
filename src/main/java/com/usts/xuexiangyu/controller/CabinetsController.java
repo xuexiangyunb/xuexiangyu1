@@ -22,7 +22,8 @@ import java.util.Map;
 
 
 @Controller
-public class CabinetsController {
+public class CabinetsController
+{
     @Autowired
     CabinetsService cabinetsService;
     @Autowired
@@ -150,7 +151,8 @@ public class CabinetsController {
         }
     }
 
-    private Data compareTime(List<Data> dataList) {
+    private Data compareTime(List<Data> dataList)
+    {
         int year1;
         int year2;
         int month1;
