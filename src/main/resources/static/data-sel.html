@@ -74,7 +74,8 @@
             url: 'listData?cId='+cId,
             defaultToolbar:['exports'],
             toolbar:true,
-            page: false,
+            page: true,
+            limit: 10,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},

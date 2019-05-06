@@ -194,7 +194,7 @@ public class DataController {
                 if(ck.getName().equals("name")){
                     ckName = ck.getValue();
                 }
-                }
+            }
 
 
 

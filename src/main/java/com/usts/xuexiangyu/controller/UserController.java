@@ -76,7 +76,7 @@ public class UserController {
     public @ResponseBody Map<String, Object> addUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         //获取用户姓名和密码，通过HttpServletRequest实现
-      HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String pwd = "admin";
         String time = request.getParameter("time");
