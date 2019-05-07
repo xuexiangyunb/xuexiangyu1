@@ -169,7 +169,7 @@
         <div id="h5">
             <img src="images/tep.jpg" height="100" width="100"/></div>
         <div id="h6">
-21
+
         </div>
         <div id="p5">
             <font color="black" weight="110" >温度</font>
@@ -181,7 +181,7 @@
         </div>
         <div id="h8">
 
-22
+
         </div >
 
         <div id="p6">
@@ -214,6 +214,19 @@
     </div>
 
 </div>
+<script src="lib/layui/layui.js"></script>
+<script src="lib/nprogress/nprogress.js"></script>
+<script src="lib/layui/lay/modules/layer.js"></script>
+<script>
+    layui.use('layer', function(){
+        var layer = layui.layer;
+
+        layer.alert('test', {icon: 1});
+    });
+
+
+
+</script>
 
 
 </body>

@@ -28,7 +28,7 @@
         <form class="layui-form layui-col-md12 ok-search">
             <input class="layui-input" placeholder="开始日期" autocomplete="off" id="startTime">
             <input class="layui-input" placeholder="截止日期" autocomplete="off" id="endTime">
-            <input class="layui-input" placeholder="请输入角色名" autocomplete="off">
+            <input class="layui-input" name="id" id="id" placeholder="请输入角色名" autocomplete="off" name="id">
             <button class="layui-btn" lay-submit="" lay-filter="search">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
@@ -102,7 +102,7 @@
             if($("#id").val() !="" ){
                 table.reload("tableId", {
                     where: {
-                        id: $("#id").val(),
+                        id: $("#cid").val(),
 
                     }
                 });
