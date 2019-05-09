@@ -2,18 +2,18 @@ package com.usts.xuexiangyu.pojo;
 
 public class WarningVO {
     int id;
-    String time;
     String tem;
     String hum;
+    String time;
 
     public WarningVO() {
     }
 
     public WarningVO(int id, String time, String tem, String hum) {
         this.id = id;
-        this.time = time;
         this.tem = tem;
         this.hum = hum;
+        this.time = time;
     }
 
     public int getId() {
@@ -22,14 +22,6 @@ public class WarningVO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getTem() {
@@ -46,5 +38,13 @@ public class WarningVO {
 
     public void setHum(String hum) {
         this.hum = hum;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

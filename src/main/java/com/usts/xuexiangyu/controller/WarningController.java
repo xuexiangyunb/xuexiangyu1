@@ -54,7 +54,6 @@ public class WarningController {
         String time = request.getParameter("time");
         //将获取的用户姓名和密码封装在user对象里，然后传入service层
         Warning w = new Warning();
-        w.setcId(cid);
         w.setwTem(tem);
         w.setwHum(hum);
         w.setwTime(time);
@@ -87,10 +86,10 @@ public class WarningController {
                 {
                     WarningVO wk = new WarningVO();
                     Warning w = list.get(i);
-                    wk.setId(w.getcId());
-                    wk.setTime(w.getwTime());
-                    wk.setHum(w.getwHum());
+                    wk.setId(w.getwId());
                     wk.setTem(w.getwTem());
+                    wk.setHum(w.getwHum());
+                    wk.setTime(w.getwTime());
                    warningVoList.add(wk);
                 }
             }
