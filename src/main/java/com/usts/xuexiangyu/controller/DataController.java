@@ -200,10 +200,12 @@ public class DataController {
             List<Cabinets> cabinetslist = cabinetsService.listCabinets();
             List<String> humList = new ArrayList<>();//湿度容器
             List<String> temList = new ArrayList<>();//温度容器
+            List<String> timeList = new ArrayList<>();
             int uId=-1;
             int cId=-1;
             String hum="";
             String tem="";
+            String time="";
             for (int t = 0; t < usersList.size(); t++) {
                 if(usersList.get(t).getuName().equals(ckName)){
                    uId = usersList.get(t).getuId();
@@ -227,6 +229,7 @@ public class DataController {
             Data data = compareTime(dataList);
             map.put("humData", data.getdHum());
             map.put("temData",data.getdTem());
+            map.put("timeData",data.getdTime());
         }
         return map;
     }
