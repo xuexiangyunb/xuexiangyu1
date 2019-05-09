@@ -20,22 +20,24 @@ function initData()
             }
             else if (result.humData > 75 || result.temData > 75) {
 
-                $.ajax({
-                    dataType: "json",
-                    url: "/addWarning",
-                    type: "get",
-
-                    success: function (data) {
-
-
-                    }
-
-
-                })
+                addWarning(result.);
 
                 alert("湿度异常");
             }
         }
+
+    })
+}
+function addWarning(cid,hum,tem,time){
+    $.ajax({
+        dataType: "json",
+        url: "/addWarning?cid="+cid+"&tem="+tem+"&hum="+hum+"&time="+time,
+        type: "get",
+        success: function (data) {
+
+
+        }
+
 
     })
 }

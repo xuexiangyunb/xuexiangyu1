@@ -35,8 +35,9 @@ public class WarningController {
     @Autowired
     WarningService warningService;
 
-    @RequestMapping("/addWaring")
+    @RequestMapping("/addWarning")
     public String addWarning(HttpServletRequest request) {
+        System.out.println("增加异常信息");
         //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         int cid = Integer.parseInt(request.getParameter("cid"));
