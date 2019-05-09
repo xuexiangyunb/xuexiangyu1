@@ -34,10 +34,10 @@
     </div>
     <!--工具栏-->
     <okToolbar>
-        <!-- <button class="layui-btn layui-btn-normal" id="batchEnabled">
-            <i class="iconfont icon-shangsheng"></i>批量启用
+         <button class="layui-btn layui-btn-normal" id="batchEnabled">
+            <i class="iconfont icon-xiajiang"></i>
         </button>
-        <button class="layui-btn layui-btn-warm" id="batchDisabled">
+        <!-- <button class="layui-btn layui-btn-warm" id="batchDisabled">
             <i class="iconfont icon-web-icon-"></i>批量停用
         </button> -->
 
@@ -69,6 +69,8 @@
             url: 'listWarning',
             limit: 10,
             page: true,
+            defaultToolbar:['exports'],
+            toolbar:true,
             cols: [[
                 {type: 'checkbox'},
                 {field: 'id', title: 'ID', width: 80, sort: true},
