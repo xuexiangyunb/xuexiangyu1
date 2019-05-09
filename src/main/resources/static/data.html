@@ -26,7 +26,7 @@
     <div class="layui-row">
         <form class="layui-form layui-col-md12 ok-search">
             <!--  <input class="layui-input" placeholder="入住日期" autocomplete="off" id="startTime"> -->
-            <input class="layui-input" name="id" id="id" placeholder="请输入柜子ID" autocomplete="off">
+            <input class="layui-input" name="site" id="site" placeholder="请输入柜子编号" autocomplete="off" >
             <button class="layui-btn" lay-submit="" lay-filter="search">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
@@ -70,16 +70,6 @@
         var laydate = layui.laydate;
         var upload = layui.upload;
 
-        laydate.render({
-            elem: '#startTime',
-            type: "datetime"
-        });
-
-        laydate.render({
-            elem: '#endTime',
-            type: "datetime"
-        });
-
         table.render({
             elem: '#tableId',
             url: 'listCabinets',
@@ -103,10 +93,10 @@
 
         form.on('submit(search)', function () {
             layer.msg('正在查询，请稍后...',{icon: 6, time: 1000});
-            if($("#id").val() !="" ){
+            if($("#site").val() !="" ){
                 table.reload("tableId", {
                     where: {
-                       id: $("#id").val(),
+                       site: $("#site").val(),
 
                     }
                 });

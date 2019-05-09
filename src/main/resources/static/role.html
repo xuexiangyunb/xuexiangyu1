@@ -28,7 +28,7 @@
         <form class="layui-form layui-col-md12 ok-search">
             <input class="layui-input" placeholder="开始日期" autocomplete="off" id="startTime">
             <input class="layui-input" placeholder="截止日期" autocomplete="off" id="endTime">
-            <input class="layui-input" name="id" id="id" placeholder="请输入角色名" autocomplete="off" name="id">
+            <input class="layui-input" name="name" id="name" placeholder="请输入角色名" autocomplete="off" name="name">
             <button class="layui-btn" lay-submit="" lay-filter="search">
                 <i class="layui-icon layui-icon-search"></i>
             </button>
@@ -99,10 +99,10 @@
 
         form.on('submit(search)', function () {
             layer.msg('正在查询，请稍后...',{icon: 6, time: 1000});
-            if($("#id").val() !="" ){
+            if($("#name").val() !="" ){
                 table.reload("tableId", {
                     where: {
-                        id: $("#cid").val(),
+                        name: $("#name").val(),
 
                     }
                 });

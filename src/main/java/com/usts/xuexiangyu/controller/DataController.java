@@ -195,11 +195,6 @@ public class DataController {
                     ckName = ck.getValue();
                 }
             }
-
-
-
-
-
             List<Data> list = dataService.listData();
             List<Users> usersList = userService.listUsers();
             List<Cabinets> cabinetslist = cabinetsService.listCabinets();

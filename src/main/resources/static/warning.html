@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>告警信息列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <link rel="stylesheet" href="css/sub-page.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_693759_wytlyqhtdtj1nhfr.css">
+    <link rel="stylesheet" href="lib/nprogress/nprogress.css">
+</head>
+<body>
+<div class="ok-body">
+    <!--面包屑导航区域-->
+    <div class="ok-body-breadcrumb">
+            <span class="layui-breadcrumb">
+                <a><cite>告警管理</cite></a>
+                <a><cite>告警信息列表</cite></a>
+            </span>
+        <a class="layui-btn layui-btn-small" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh"></i>
+        </a>
+    </div>
+    <!--模糊搜索区域-->
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 ok-search">
+            <!--  <input class="layui-input" placeholder="入住日期" autocomplete="off" id="startTime"> -->
+            <input class="layui-input" name="site" id="site" placeholder="请输入柜子编号" autocomplete="off" >
+            <button class="layui-btn" lay-submit="" lay-filter="search">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+        </form>
+    </div>
+    <!--工具栏-->
+    <okToolbar>
+        <!-- <button class="layui-btn layui-btn-normal" id="batchEnabled">
+            <i class="iconfont icon-shangsheng"></i>批量启用
+        </button>
+        <button class="layui-btn layui-btn-warm" id="batchDisabled">
+            <i class="iconfont icon-web-icon-"></i>批量停用
+        </button> -->
+
+
+
+        <span>共有数据：<i id="countNum"></i> 条</span>
+    </okToolbar>
+    <!--数据表格-->
+    <table class="layui-hide" id="tableId" lay-filter="tableFilter"></table>
+</div>
+<!--js逻辑-->
+<script src="lib/layui/layui.js"></script>
+<script src="lib/nprogress/nprogress.js"></script>
+<script>
+    NProgress.start();
+    window.onload = function () {
+        NProgress.done();
+    }
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate','upload'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+
+        table.render({
+            elem: '#tableId',
+            url: 'listWarning',
+            limit: 10,
+            page: true,
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'id', title: 'ID', width: 80, sort: true},
+                {field: 'tem', title: '温度', width: 100,},
+                {field: 'hum', title: '湿度(%)', width: 100,},
+                {field: 'time', title: '时间', width: 200},
+
+            ]],
+            done: function (res, curr, count) {
+                $("#countNum").text(count);
+            }
+        });
+
+        form.on('submit(search)', function () {
+            layer.msg('正在查询，请稍后...',{icon: 6, time: 1000});
+            if($("#site").val() !="" ){
+                table.reload("tableId", {
+                    where: {
+                        site: $("#site").val(),
+
+                    }
+                });
+            }else{
+                layer.msg('请输入数据再查询...',{icon: 7, time: 1000});
+            }
+            return false;
+        });
+
+
+    })
+</script>
+<!--模板-->
+
+</body>
+</html>
