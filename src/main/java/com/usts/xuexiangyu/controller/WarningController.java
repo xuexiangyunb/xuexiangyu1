@@ -40,7 +40,15 @@ public class WarningController {
         System.out.println("增加异常信息");
         //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
-        int cid = Integer.parseInt(request.getParameter("cid"));
+
+
+        /*下边这个cid是通过cookie获取用户名，然后通过用户名获取对应柜子的id
+        * cid的值确定之后，就为什么问题了
+        * */
+        //int cid = Integer.parseInt(request.getParameter("cid"));
+
+
+
         String tem = request.getParameter("tem");
         String hum = request.getParameter("hum");
         String time = request.getParameter("time");

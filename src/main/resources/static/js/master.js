@@ -20,7 +20,7 @@ function initData()
             }
             else if (result.humData > 75 || result.temData > 75) {
 
-                addWarning(result.);
+                addWarning(result.temData,result.humData,result.timeData);
 
                 alert("湿度异常");
             }
@@ -31,7 +31,7 @@ function initData()
 function addWarning(cid,hum,tem,time){
     $.ajax({
         dataType: "json",
-        url: "/addWarning?cid="+cid+"&tem="+tem+"&hum="+hum+"&time="+time,
+        url: "/addWarning?tem="+tem+"&hum="+hum+"&time="+time,
         type: "get",
         success: function (data) {
 
