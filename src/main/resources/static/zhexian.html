@@ -41,13 +41,12 @@
             <i class="iconfont icon-web-icon-"></i>批量停用
         </button>
 
-
+      <button class="layui-btn" id="addSel">
+            <i class="layui-icon">&#xe615;</i>查询历史数据
+        </button>-->
 
         <button class="layui-btn layui-btn-warm" id="see">
             <i class="layui-icon">&#xe64c;</i>查看折线分析图
-        </button>-->
-        <button class="layui-btn" id="addSel">
-            <i class="layui-icon">&#xe615;</i>查询历史数据
         </button>
 
         <span>共有数据：<i id="countNum"></i> 条</span>
@@ -97,7 +96,7 @@
             if($("#site").val() !="" ){
                 table.reload("tableId", {
                     where: {
-                       site: $("#site").val(),
+                        site: $("#site").val(),
 
                     }
                 });
@@ -126,7 +125,7 @@
                         content: 'data-sel.html',
                         zIndex: layer.zIndex,
 
-                       success: function (layero, index) {
+                        success: function (layero, index) {
                             // 获取子页面的iframe
                             var iframe = window['layui-layer-iframe' + index];
                             // 向子页面的全局函数child传参

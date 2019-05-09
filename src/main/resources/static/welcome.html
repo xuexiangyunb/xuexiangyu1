@@ -8,75 +8,106 @@
     <link rel="stylesheet" href="css/scroll-bar.css">
     <link rel="stylesheet" href="css/sub-page.css">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_693759_hsptnwurztv.css">
+    <script src="lib/layui/layui.js"></script>
 </head>
 <body>
 <div class="ok-body">
     <blockquote class="layui-elem-quote">
-        欢迎管理员：<span class="x-red">admin</span>！当前时间: <span id="nowTime"></span> <span id="weekday"></span>
+        欢迎超级管理员：<span class="x-red">admin</span>！当前时间: <span id="nowTime"></span> <span id="weekday"></span>
     </blockquote>
-    <fieldset class="layui-elem-field">
-        <legend>数据统计</legend>
-        <div class="layui-row layui-col-space10 layui-row-margin">
-            <div class="layui-col-md2">
-                <div class="layui-bg-green md2-sub1">
-                    <i class="iconfont icon-dianliyonghuzongshu"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>用户总数</cite>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="layui-bg-blue md2-sub1">
-                    <i class="iconfont icon-wenzhang2"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>文章总数</cite>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="layui-bg-black md2-sub1">
-                    <i class="iconfont icon-pinglun"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>评论总数</cite>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="layui-bg-orange md2-sub1">
-                    <i class="iconfont icon-goods"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>商品总数</cite>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="layui-bg-red md2-sub1">
-                    <i class="iconfont icon-jiaose"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>角色总数</cite>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div class="layui-bg-cyan md2-sub1">
-                    <i class="iconfont icon-webpage"></i>
-                </div>
-                <div class="md2-sub2">
-                    <span>100</span>
-                    <cite>页面总数</cite>
-                </div>
-            </div>
-        </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>开关柜智能系统</legend>
     </fieldset>
+</div>
+    <div class="layui-carousel" id="test10">
+        <div carousel-item="">
+            <div><img src="images/1.png"></div>
+            <div><img src="images/2.png"></div>
+            <div><img src="images/3.png"></div>
+            <div><img src="images/4.png"></div>
+            <div><img src="images/5.png"></div>
+            <div><img src="images/6.png"></div>
+        </div>
+    </div>
+
+
+
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+        layui.use(['carousel', 'form'], function(){
+            var carousel = layui.carousel
+                ,form = layui.form;
+
+            //常规轮播
+            carousel.render({
+                elem: '#test1'
+                ,arrow: 'always'
+            });
+
+            //改变下时间间隔、动画类型、高度
+            carousel.render({
+                elem: '#test2'
+                ,interval: 1800
+                ,anim: 'fade'
+                ,height: '120px'
+            });
+
+            //设定各种参数
+            var ins3 = carousel.render({
+                elem: '#test3'
+            });
+            //图片轮播
+            carousel.render({
+                elem: '#test10'
+                ,width: '1150px'
+                ,height: '500px'
+                ,interval: 5000
+            });
+
+            //事件
+            carousel.on('change(test4)', function(res){
+                console.log(res)
+            });
+
+            var $ = layui.$, active = {
+                set: function(othis){
+                    var THIS = 'layui-bg-normal'
+                        ,key = othis.data('key')
+                        ,options = {};
+
+                    othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                    options[key] = othis.data('value');
+                    ins3.reload(options);
+                }
+            };
+
+            //监听开关
+            form.on('switch(autoplay)', function(){
+                ins3.reload({
+                    autoplay: this.checked
+                });
+            });
+
+            $('.demoSet').on('keyup', function(){
+                var value = this.value
+                    ,options = {};
+                if(!/^\d+$/.test(value)) return;
+
+                options[this.name] = value;
+                ins3.reload(options);
+            });
+
+            //其它示例
+            $('.demoTest .layui-btn').on('click', function(){
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+        });
+        </script>
 
 
 <!--js逻辑-->
-<script src="lib/layui/layui.js"></script>
+
 <script>
     /**
      * 初始化函数
