@@ -117,11 +117,11 @@ public class WarningController {
                 for (int k = 0; k < cabinetslist.size(); k++) {
                     if (cabinetslist.get(k).getuId() == uId) {
                         wk.setSite(cabinetslist.get(k).getcSite());
-
+                        warningVoList.add(wk);
                     }
 
                 }
-                warningVoList.add(wk);
+
             }
 
             map.put("code", 0);
