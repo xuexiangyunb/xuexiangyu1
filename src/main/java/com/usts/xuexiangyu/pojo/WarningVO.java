@@ -2,6 +2,7 @@ package com.usts.xuexiangyu.pojo;
 
 public class WarningVO {
     int id;
+    int site;
     String tem;
     String hum;
     String time;
@@ -9,8 +10,9 @@ public class WarningVO {
     public WarningVO() {
     }
 
-    public WarningVO(int id, String time, String tem, String hum) {
+    public WarningVO(int id, int site, String time, String tem, String hum) {
         this.id = id;
+        this.site=site;
         this.tem = tem;
         this.hum = hum;
         this.time = time;
@@ -22,6 +24,14 @@ public class WarningVO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSite() {
+        return site;
+    }
+
+    public void setSite(int site) {
+        this.site = site;
     }
 
     public String getTem() {

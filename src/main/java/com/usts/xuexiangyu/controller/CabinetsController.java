@@ -22,8 +22,7 @@ import java.util.Map;
 
 
 @Controller
-public class CabinetsController
-{
+public class CabinetsController {
     @Autowired
     CabinetsService cabinetsService;
     @Autowired
@@ -36,7 +35,9 @@ public class CabinetsController
     //前端测试地址为：http://localhost:8080/updateUser?name=zhouha&pwd=145236
 
     @RequestMapping("/addCabinets")
-    public String addCabinets(HttpServletRequest request) {
+    public @ResponseBody
+    Map<String, Object> addCabinets(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
         //获取用户姓名和密码，通过HttpServletRequest实现
         HttpSession session = request.getSession();
         String name = request.getParameter("name");
@@ -48,29 +49,35 @@ public class CabinetsController
         c.setcName(name);
         c.setcSite(site);
         cabinetsService.addCabinets(c);
-        return "success.html";
+        map.put("result", "success");
+        map.put("respDisc", "添加成功");
+        return map;
     }
 
     //删除用户，从前端获取用户的id
     //前端测试地址为：http://localhost:8080/delUser?id=11
     @RequestMapping("/delCabinets")
-    public String delUser(HttpServletRequest request) {
-        //获取用户id，通过HttpServletRequest实现
-        HttpSession session = request.getSession();
+    public @ResponseBody
+    Map<String, Object> delCabinets(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
         int id = Integer.parseInt(request.getParameter("id"));
         //将获取的用户id封装在user对象里，然后传入service层
         Cabinets c = new Cabinets();
         c.setcId(id);
         cabinetsService.delCabinets(c);
-        return "success.html";
+        map.put("result", "success");
+        map.put("respDisc", "删除成功");
+        return map;
     }
 
     //修改用户，从前端获取用户的id，姓名，密码
     //前端测试地址为：http://localhost:8080/updateUser?id=11&name=zhouha&pwd=145236
     //注意：没有加密码为空的判断
     @RequestMapping("/updateCabinets")
-    public String updateUser(HttpServletRequest request) {
+    public @ResponseBody
+    Map<String, Object> updateCabinets(HttpServletRequest request) {
         //获取用户id，用户名和密码，通过HttpServletRequest实现
+        Map<String, Object> map = new HashMap<String, Object>();
         HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
         int uid = Integer.parseInt(request.getParameter("uid"));
@@ -83,12 +90,56 @@ public class CabinetsController
         c.setcName(name);
         c.setcSite(site);
         cabinetsService.updateCabinets(c);
-        return "success.html";
+        map.put("result", "success");
+        map.put("respDisc", "修改成功");
+        return map;
     }
-
     //显示所有柜子
     //前端测试地址为：http://localhost:8080/listUser
     //注意：此功能先不要写，需要登录,但是可以先测试一下看看效果
+
+    @RequestMapping("/listCab")
+    public @ResponseBody
+    Map<String, Object> listCab(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        //如果没登录，提示没登录
+        Cookie[] cks = request.getCookies();
+        for (Cookie ck : cks) {
+            if (ck.getValue().equals("1")) {
+                this.isLogin = true;
+                break;
+            }
+        }
+        if (!this.isLogin) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+
+            List<Cabinets> list = cabinetsService.listCabinets();
+            List<CabVO> cabVoList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++)
+            {
+
+                CabVO ck = new CabVO();
+                Cabinets c = list.get(i);
+                ck.setId(c.getcId());
+                ck.setName(c.getcName());
+                ck.setSite(c.getcSite());
+                ck.setUid(c.getuId());
+                cabVoList.add(ck);
+            }
+
+        map.put("code", 0);
+        map.put("msg", "WWW");
+        map.put("count", cabVoList.size());
+        map.put("data", cabVoList);
+
+
+        return map;
+    }
+
+}
     @RequestMapping("/listCabinets")
     public @ResponseBody
     Map<String, Object> listCabinets(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -115,6 +166,7 @@ public class CabinetsController
                 cv.setId(c.getcId());
                 cv.setName(c.getcName());
                 cv.setSite(c.getcSite());
+                cv.setUid(c.getuId());
                 //data,湿度 温度 时间的设置  需要dataService添加一个方法
                 //这个方法主要用来传入柜子的id，然后获得这个柜子的所有data
                 //获取这个柜子的所有data后，比较时间，找到最新时间点的数据

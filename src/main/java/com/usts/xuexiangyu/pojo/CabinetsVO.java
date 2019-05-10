@@ -8,12 +8,14 @@ public class CabinetsVO {
     String time;
     String tem;
     String hum;
+    int uid;
 
     public CabinetsVO() {
     }
 
-    public CabinetsVO(int id, String admin, int site, String name, String time, String tem, String hum) {
+    public CabinetsVO(int id, int uid,String admin, int site, String name, String time, String tem, String hum) {
         this.id = id;
+        this.uid = uid;
         this.admin = admin;
         this.site = site;
         this.name = name;
@@ -28,6 +30,14 @@ public class CabinetsVO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getAdmin() {

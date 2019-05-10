@@ -1,6 +1,7 @@
 package com.usts.xuexiangyu.controller;
 
 import com.usts.xuexiangyu.pojo.*;
+import com.usts.xuexiangyu.service.CabinetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ public class UserController {
     @Autowired
     UserService userService;
     boolean isLogin = false;
+    @Autowired
+    CabinetsService cabinetsService;
 
 
     /*登录

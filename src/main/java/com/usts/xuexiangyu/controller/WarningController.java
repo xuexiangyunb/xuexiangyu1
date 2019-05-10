@@ -43,10 +43,9 @@ public class WarningController {
 
 
         /*下边这个cid是通过cookie获取用户名，然后通过用户名获取对应柜子的id
-        * cid的值确定之后，就为什么问题了
-        * */
+         * cid的值确定之后，就为什么问题了
+         * */
         //int cid = Integer.parseInt(request.getParameter("cid"));
-
 
 
         String tem = request.getParameter("tem");
@@ -57,9 +56,10 @@ public class WarningController {
         w.setwTem(tem);
         w.setwHum(hum);
         w.setwTime(time);
-       warningService.addWarning(w);
+        warningService.addWarning(w);
         return "success.html";
     }
+
     @RequestMapping("/listWarning")
     public @ResponseBody
     Map<String, Object> listWarning(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -77,22 +77,53 @@ public class WarningController {
             map.put("respDesc", "您尚未登录，请先登录！");
             return map;
         } else {
-            String id = request.getParameter("cId");
-            System.out.println(id);
+            String ckName = "";
+            Cookie[] c = request.getCookies();
+            for (Cookie ck : c) {
+                if (ck.getName().equals("name")) {
+                    ckName = ck.getValue();
+                }
+            }
+            List<Users> usersList = userService.listUsers();
+            List<Cabinets> cabinetslist = cabinetsService.listCabinets();
             List<Warning> list = warningService.listWarning();
             List<WarningVO> warningVoList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-          //      if (list.get(i).getcId() == Integer.parseInt(id))
-                {
+            List<String> humList = new ArrayList<>();//湿度容器
+            List<String> temList = new ArrayList<>();//温度容器
+            List<String> timeList = new ArrayList<>();
+            int uId = -1;
+            int cId = -1;
+            String hum = "";
+            String tem = "";
+            String time = "";
+            List<Warning> warningList = new ArrayList<>();
+            for (int m = 0; m < list.size(); m++)
+            {
+
                     WarningVO wk = new WarningVO();
-                    Warning w = list.get(i);
+                    Warning w = list.get(m);
                     wk.setId(w.getwId());
                     wk.setTem(w.getwTem());
                     wk.setHum(w.getwHum());
                     wk.setTime(w.getwTime());
-                   warningVoList.add(wk);
+
+
+                for (int t = 0; t < usersList.size(); t++) {
+                    if (usersList.get(t).getuName().equals(ckName)) {
+                        uId = usersList.get(t).getuId();
+
+                    }
                 }
+                for (int k = 0; k < cabinetslist.size(); k++) {
+                    if (cabinetslist.get(k).getuId() == uId) {
+                        wk.setSite(cabinetslist.get(k).getcSite());
+
+                    }
+
+                }
+                warningVoList.add(wk);
             }
+
             map.put("code", 0);
             map.put("msg", "WWW");
             map.put("count", warningVoList.size());

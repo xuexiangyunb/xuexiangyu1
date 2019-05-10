@@ -18,7 +18,7 @@ function initData()
 
                 alert("温湿度异常预警");
             }
-            else if (result.humData > 75 || result.temData > 75) {
+            else if (result.humData > 75 || result.temData > 95) {
 
                 addWarning(result.temData,result.humData,result.timeData);
 
