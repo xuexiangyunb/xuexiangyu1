@@ -169,6 +169,30 @@ public class DataController {
         return map;
     }
 
+    @RequestMapping("/sel")
+    public @ResponseBody
+    Map<String, Object> sel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        //如果没登录，提示没登录
+        Cookie[] cks = request.getCookies();
+        for (Cookie ck : cks) {
+            if (ck.getValue().equals("1")) {
+                this.isLogin = true;
+                break;
+            }
+        }
+        if (!this.isLogin) {
+            map.put("respCode", 1);
+            map.put("respDesc", "您尚未登录，请先登录！");
+            return map;
+        } else {
+            String id = request.getParameter("cId");
+            List<Data> list = dataService.listData();
+
+
+        }
+        return map;
+    }
 
 
     @RequestMapping("/listHT")
